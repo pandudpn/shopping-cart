@@ -1,6 +1,9 @@
 package servicecontainer
 
-import "github.com/pandudpn/shopping-cart/app/container/controllerfactory"
+import (
+	"github.com/pandudpn/shopping-cart/app/container/controllerfactory"
+	"github.com/pandudpn/shopping-cart/app/container/middlewarefactory"
+)
 
 type ServiceContainer struct {
 	Factory map[string]interface{}
@@ -8,6 +11,10 @@ type ServiceContainer struct {
 
 func (sc *ServiceContainer) BuildController(code string) (interface{}, error) {
 	return controllerfactory.GetControllerFbMap(code).Build(sc)
+}
+
+func (sc *ServiceContainer) BuildMiddleware(code string) (interface{}, error) {
+	return middlewarefactory.GetMiddlewareFbMap(code).Build(sc)
 }
 
 func (sc *ServiceContainer) Get(code string) (interface{}, bool) {

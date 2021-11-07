@@ -5,4 +5,6 @@ const (
 	REDIS    = "redis"
 	USER     = "user"
 	ENABLETX = true
+
+	CACHED = "cached"
 )
