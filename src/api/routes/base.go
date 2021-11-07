@@ -2,12 +2,14 @@ package routes
 
 import (
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	echoMiddleware "github.com/labstack/echo/middleware"
 	"github.com/pandudpn/shopping-cart/src/api/controller"
+	"github.com/pandudpn/shopping-cart/src/api/middleware"
 )
 
 type RouteHandler struct {
-	User controller.UserControllerInterface
+	User   controller.UserControllerInterface
+	Cached middleware.CachedMiddlewareInterface
 }
 
 type RouteInterface interface {
@@ -17,7 +19,7 @@ type RouteInterface interface {
 func (rh *RouteHandler) Route() *echo.Echo {
 	e := echo.New()
 	e.HideBanner = true
-	e.Use(middleware.Logger())
+	e.Use(echoMiddleware.Logger())
 
 	user := e.Group("/user")
 	user.POST("", rh.User.LoginHandler)

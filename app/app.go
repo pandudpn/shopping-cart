@@ -2,9 +2,6 @@ package app
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"path/filepath"
 
 	"github.com/pandudpn/shopping-cart/app/container"
 	"github.com/pandudpn/shopping-cart/app/container/containerhelper"
@@ -15,8 +12,6 @@ import (
 )
 
 func App() {
-	loadConfig()
-
 	port := fmt.Sprintf(":%d", viper.GetInt("application.port"))
 
 	c, err := buildContainer()
@@ -29,7 +24,12 @@ func App() {
 		panic(err)
 	}
 
-	routes := routes.RouteHandler{User: userController}
+	cachedMiddleware, err := containerhelper.GetCachedMiddleware(c)
+	if err != nil {
+		panic(err)
+	}
+
+	routes := routes.RouteHandler{User: userController, Cached: cachedMiddleware}
 	router := routes.Route()
 
 	logrus.Fatal(router.Start(port))
@@ -40,21 +40,4 @@ func buildContainer() (container.Container, error) {
 	c := servicecontainer.ServiceContainer{Factory: factoryMap}
 
 	return &c, nil
-}
-
-func loadConfig() {
-	dir, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err)
-	}
-	dir = filepath.Join(dir, "../")
-	configFile := fmt.Sprintf("%s/config.yml", dir)
-
-	viper.AutomaticEnv()
-	viper.SetConfigType("yaml")
-	viper.SetConfigFile(configFile)
-	err = viper.ReadInConfig()
-	if err != nil {
-		logrus.Error(err)
-	}
 }

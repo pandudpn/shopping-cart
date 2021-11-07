@@ -1,6 +1,9 @@
 package utils
 
 import (
+	"encoding/json"
+	"net/http"
+
 	"github.com/labstack/echo"
 )
 
@@ -16,10 +19,18 @@ type response struct {
 
 type ResponseInterface interface {
 	JSON(c echo.Context) error
+
+	MiddlewareJson(w http.ResponseWriter)
 }
 
 func (r *response) JSON(c echo.Context) error {
 	return c.JSON(r.StatusCode, r)
+}
+
+func (r *response) MiddlewareJson(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(r.StatusCode)
+	json.NewEncoder(w).Encode(r)
 }
 
 func Success(statusCode int, systemCode string, data interface{}) ResponseInterface {
