@@ -1,0 +1,16 @@
+# IDE
+.vscode/
+.idea/
+
+# JSON File
+*.json
+
+# environment file
+config.yml
+.env
+
+# Third Party
+vendor/
+
+# UT
+*.out

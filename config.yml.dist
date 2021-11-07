@@ -1,0 +1,4 @@
+application:
+  port: 8000
+db:
+  dsn: user=postgres password= host= port=5432 dbname= sslmode=disable TimeZone=Asia/Jakarta
