@@ -10,7 +10,8 @@ import (
 
 // untuk me-mapping database code
 var dsFbMap = map[string]dataStoreFbInterface{
-	constant.PSQL: &psqlFactory{},
+	constant.PSQL:  &psqlFactory{},
+	constant.REDIS: &redisFactory{},
 }
 
 type DataStoreInterface interface{}

@@ -2,7 +2,13 @@
 // in order to have an unified way to access database handler
 package dbc
 
-import "database/sql"
+import (
+	"context"
+	"database/sql"
+	"time"
+
+	"github.com/go-redis/redis/v8"
+)
 
 // SqlDbc (SQL Database Connection) is a wrapper for SQL Database handler (can be *sql.DB or *sql.Tx)
 type SqlDbc interface {
@@ -12,6 +18,13 @@ type SqlDbc interface {
 	QueryRow(query string, args ...interface{}) *sql.Row
 	// If you want support transactional
 	Transactioner
+}
+
+type RDbc interface {
+	Get(ctx context.Context, key string) *redis.StringCmd
+	Set(ctx context.Context, key string, value interface{}, expiration time.Duration) *redis.StatusCmd
+	Del(ctx context.Context, key ...string) *redis.IntCmd
+	GetDel(ctx context.Context, key string) *redis.StringCmd
 }
 
 type Transactioner interface {
