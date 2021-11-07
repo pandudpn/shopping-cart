@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/pandudpn/shopping-cart/src/utils/logger"
 	"github.com/spf13/viper"
 )
 
@@ -26,8 +27,10 @@ func RedisConnection() *redis.Client {
 
 	err := conn.Ping(ctx).Err()
 	if err != nil {
+		logger.Log.Error(err)
 		panic(err)
 	}
 
+	logger.Log.Debug("redis connected")
 	return conn
 }

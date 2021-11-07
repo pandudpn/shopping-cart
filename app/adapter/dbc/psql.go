@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	_ "github.com/lib/pq"
+	"github.com/pandudpn/shopping-cart/src/utils/logger"
 	"github.com/spf13/viper"
 )
 
@@ -16,8 +17,10 @@ func DatabaseConnection() *sql.DB {
 
 	err = db.Ping()
 	if err != nil {
+		logger.Log.Error(err)
 		panic(err)
 	}
 
+	logger.Log.Debug("psql connected")
 	return db
 }
