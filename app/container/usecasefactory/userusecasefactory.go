@@ -17,7 +17,14 @@ func (uucf *userUseCaseFactory) Build(c container.Container) (UseCaseFactoryInte
 	}
 
 	uri := rufi.(repository.UserRepositoryInterface)
-	uuc := userusecase.UserUseCase{UserRepo: uri}
+
+	rrfi, err := repositoryfactory.GetRepositoryFbMap(constant.REDIS).Build(c, false)
+	if err != nil {
+		return nil, err
+	}
+	rri := rrfi.(repository.RedisRepositoryInterface)
+
+	uuc := userusecase.UserUseCase{UserRepo: uri, RedisRepo: rri}
 
 	return &uuc, nil
 }
