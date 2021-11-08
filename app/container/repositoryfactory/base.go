@@ -9,8 +9,8 @@ import (
 // untuk me-mapping "repository code"
 // masing-masing repositoryFactory mempunyai code dan juga builder/factory sendiri
 var rFbMap = map[string]repositoryFbInterface{
-	constant.USER:   &userRepositoryFactory{},
-	constant.CACHED: &redisRepositoryFactory{},
+	constant.USER:  &userRepositoryFactory{},
+	constant.REDIS: &redisRepositoryFactory{},
 }
 
 type RepositoryFactoryInterface interface{}

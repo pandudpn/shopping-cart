@@ -11,9 +11,9 @@ import (
 type redisRepositoryFactory struct{}
 
 func (rrf *redisRepositoryFactory) Build(c container.Container, enabledTx bool) (RepositoryFactoryInterface, error) {
-	code := constant.CACHED
+	code := constant.REDIS
 
-	rfi, err := datastorefactory.GetDataStoreFbMap(code).Build(c, false)
+	rfi, err := datastorefactory.GetDataStoreFbMap(code).Build(c, enabledTx)
 	if err != nil {
 		return nil, err
 	}
