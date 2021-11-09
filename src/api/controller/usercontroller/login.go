@@ -1,8 +1,6 @@
 package usercontroller
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo"
 	"github.com/pandudpn/shopping-cart/src/domain/model"
 )
@@ -15,10 +13,5 @@ func (uc *UserController) LoginHandler(e echo.Context) error {
 	)
 	user.Email = "pandu@pandudpn.id"
 
-	user, err := uc.UserUseCase.LoginUser(ctx, user)
-	if err != nil {
-		return e.JSON(http.StatusFound, err)
-	}
-
-	return e.JSON(http.StatusOK, user)
+	return uc.UserUseCase.LoginUser(ctx, user.Email).JSON(e)
 }

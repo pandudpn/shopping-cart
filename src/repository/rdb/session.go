@@ -1,6 +1,7 @@
 package rdb
 
 import (
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,6 +17,7 @@ func (rr *RedisRepository) SetSession(user *model.User) (string, error) {
 	}
 
 	key := uuid.New().String()
+	key = strings.ReplaceAll(key, "-", "")
 
 	data := map[string]interface{}{
 		"id":    user.Id,

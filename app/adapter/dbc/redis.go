@@ -10,7 +10,7 @@ import (
 )
 
 func RedisConnection() *redis.Client {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	dsn := viper.GetString("redis.dsn")

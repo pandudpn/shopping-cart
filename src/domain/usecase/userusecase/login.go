@@ -2,17 +2,31 @@ package userusecase
 
 import (
 	"context"
+	"errors"
 
-	"github.com/pandudpn/shopping-cart/src/domain/model"
+	"github.com/pandudpn/shopping-cart/src/api/presenter/userpresenter"
+	"github.com/pandudpn/shopping-cart/src/utils"
 	"github.com/pandudpn/shopping-cart/src/utils/logger"
 )
 
-func (uu *UserUseCase) LoginUser(ctx context.Context, user *model.User) (*model.User, error) {
-	user, err := uu.UserRepo.FindByEmail(user.Email)
+func (uu *UserUseCase) LoginUser(ctx context.Context, email string) utils.ResponseInterface {
+	user, err := uu.getUserByEmail(email, false)
 	if err != nil {
-		logger.Log.Errorf("error get user by email %v", err)
-		return nil, err
+		return userpresenter.ResponseLogin(nil, err)
 	}
 
-	return user, nil
+	token, err := uu.RedisRepo.SetSession(user)
+	if err != nil {
+		logger.Log.Errorf("error create session %v", err)
+		err = errors.New("session.create.error")
+
+		return userpresenter.ResponseLogin(nil, err)
+	}
+
+	res := map[string]interface{}{
+		"tokenType":   "Bearer",
+		"accessToken": token,
+	}
+
+	return userpresenter.ResponseLogin(res, nil)
 }
