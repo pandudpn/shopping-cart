@@ -12,7 +12,7 @@ type redisFactory struct{}
 
 func (rf *redisFactory) Build(c container.Container, enableTx bool) (DataStoreInterface, error) {
 	if value, found := c.Get(constant.REDIS); found {
-		logger.Log.Debugf("redis found in container %v", value)
+		logger.Log.Debug("redis found in container")
 
 		return value, nil
 	}
@@ -20,6 +20,7 @@ func (rf *redisFactory) Build(c container.Container, enableTx bool) (DataStoreIn
 	conn := dbc.RedisConnection()
 
 	var rdbc = &redis.RedisDb{DB: conn}
+	logger.Log.Debug("redis connected")
 	c.Put(constant.REDIS, rdbc)
 
 	return rdbc, nil

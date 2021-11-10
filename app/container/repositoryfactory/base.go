@@ -11,6 +11,7 @@ import (
 var rFbMap = map[string]repositoryFbInterface{
 	constant.USER:  &userRepositoryFactory{},
 	constant.REDIS: &redisRepositoryFactory{},
+	constant.TX:    &txRepositoryFactory{},
 }
 
 type RepositoryFactoryInterface interface{}
@@ -18,7 +19,7 @@ type RepositoryFactoryInterface interface{}
 // Builder interface untuk factory repository
 // setiap factory yg dibuat harus mengimplementasikan method ini
 type repositoryFbInterface interface {
-	Build(c container.Container, enabledTx bool) (RepositoryFactoryInterface, error)
+	Build(c container.Container) (RepositoryFactoryInterface, error)
 }
 
 // GetRepositoryFbMap adalah aksesor untuk mengambil factory builder

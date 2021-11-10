@@ -11,4 +11,5 @@ import "github.com/labstack/echo"
 // UserControllerInterface adalah kumpulan controller/handler user
 type UserControllerInterface interface {
 	LoginHandler(e echo.Context) error
+	RegisterHandler(e echo.Context) error
 }

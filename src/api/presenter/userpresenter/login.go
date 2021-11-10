@@ -12,31 +12,54 @@ var (
 	userPhoneNotFound string = "user.phone.not_found"
 	userNotActive     string = "user.not_active"
 	queryError        string = "query.find.error"
+	insertError       string = "query.insert.error"
+	bodyPayload       string = "body.payload"
 	errCreateSession  string = "session.create.error"
+	loginSuccess      string = "login.success"
 
 	message = map[string]string{
 		userEmailNotFound: "User tidak ditemukan",
 		userPhoneNotFound: "User tidak ditemukan",
 		userNotActive:     "User belum aktif",
 		queryError:        errGlobal,
+		insertError:       errGlobal,
 		errCreateSession:  errGlobal,
+		bodyPayload:       "Permintaan kamu tidak lengkap",
+
+		registerSuccess:   "Register berhasil, silahkan login sekarang juga",
+		emailAlreadyTaken: "Email sudah digunakan",
+		phoneAlreadyTaken: "Nomer telepon sudah digunakan",
+		phoneInvalid:      "Nomer telepon tidak sesuai, pastikan nomer telepon sesuai",
 	}
 
 	systemCode = map[string]string{
-		"login.success":   "10",
+		loginSuccess:      "10",
 		userEmailNotFound: "12",
 		userPhoneNotFound: "13",
 		userNotActive:     "14",
-		queryError:        "81",
-		errCreateSession:  "89",
+
+		registerSuccess:   "20",
+		emailAlreadyTaken: "22",
+		phoneAlreadyTaken: "23",
+		phoneInvalid:      "24",
+
+		bodyPayload:      "80",
+		queryError:       "81",
+		insertError:      "82",
+		errCreateSession: "89",
 	}
 
 	statusCode = map[string]int{
-		"login.success":   http.StatusOK,
+		loginSuccess:      http.StatusOK,
 		userEmailNotFound: http.StatusNotFound,
 		userPhoneNotFound: http.StatusNotFound,
 		userNotActive:     http.StatusUnprocessableEntity,
+		registerSuccess:   http.StatusCreated,
+		emailAlreadyTaken: http.StatusBadRequest,
+		phoneAlreadyTaken: http.StatusBadRequest,
+		phoneInvalid:      http.StatusBadRequest,
 		queryError:        http.StatusInternalServerError,
+		insertError:       http.StatusInternalServerError,
 		errCreateSession:  http.StatusInternalServerError,
 	}
 )
@@ -47,5 +70,5 @@ func ResponseLogin(value interface{}, err error) utils.ResponseInterface {
 		return utils.Error(statusCode[errString], systemCode[errString], message[errString], err)
 	}
 
-	return utils.Success(statusCode["login.success"], systemCode["login.success"], value)
+	return utils.Success(statusCode[loginSuccess], systemCode[loginSuccess], value)
 }

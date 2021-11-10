@@ -31,6 +31,5 @@ func RedisConnection() *redis.Client {
 		panic(err)
 	}
 
-	logger.Log.Debug("redis connected")
 	return conn
 }

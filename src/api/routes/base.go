@@ -23,6 +23,7 @@ func (rh *RouteHandler) Route() *echo.Echo {
 
 	auth := e.Group("/auth")
 	auth.POST("/login", rh.User.LoginHandler)
+	auth.POST("/register", rh.User.RegisterHandler)
 
 	return e
 }

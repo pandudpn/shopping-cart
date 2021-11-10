@@ -1,6 +1,8 @@
 package user
 
-import "github.com/pandudpn/shopping-cart/src/domain/model"
+import (
+	"github.com/pandudpn/shopping-cart/src/domain/model"
+)
 
 const (
 	QUERY_USER_SELECT   = "select id, name, email, phone, password, enabled, email_verified_at from public.user "
