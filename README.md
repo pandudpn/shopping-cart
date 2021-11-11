@@ -9,8 +9,8 @@ Project ini menggunakan technology stack
 ### Feature
 Adapun fitur-fitur yang tersedia pada project ini :
 * User
-	- [ ] Login
-	- [ ] Register
+	- [x] Login
+	- [x] Register
 	- [ ] Forgot Password
 * Product
 	- [ ] List Product
