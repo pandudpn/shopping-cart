@@ -11,20 +11,27 @@ import (
 type userUseCaseFactory struct{}
 
 func (uucf *userUseCaseFactory) Build(c container.Container) (UseCaseFactoryInterface, error) {
-	rufi, err := repositoryfactory.GetRepositoryFbMap(constant.USER).Build(c, constant.ENABLETX)
+	rufi, err := repositoryfactory.GetRepositoryFbMap(constant.USER).Build(c)
 	if err != nil {
 		return nil, err
 	}
 
 	uri := rufi.(repository.UserRepositoryInterface)
 
-	rrfi, err := repositoryfactory.GetRepositoryFbMap(constant.REDIS).Build(c, false)
+	rufiTx, err := repositoryfactory.GetRepositoryFbMap(constant.TX).Build(c)
+	if err != nil {
+		return nil, err
+	}
+
+	uriTx := rufiTx.(repository.TxRepositoryInterface)
+
+	rrfi, err := repositoryfactory.GetRepositoryFbMap(constant.REDIS).Build(c)
 	if err != nil {
 		return nil, err
 	}
 	rri := rrfi.(repository.RedisRepositoryInterface)
 
-	uuc := userusecase.UserUseCase{UserRepo: uri, RedisRepo: rri}
+	uuc := userusecase.UserUseCase{UserRepo: uri, TxRepo: uriTx, RedisRepo: rri}
 
 	return &uuc, nil
 }

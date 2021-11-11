@@ -10,10 +10,10 @@ import (
 
 type redisRepositoryFactory struct{}
 
-func (rrf *redisRepositoryFactory) Build(c container.Container, enabledTx bool) (RepositoryFactoryInterface, error) {
+func (rrf *redisRepositoryFactory) Build(c container.Container) (RepositoryFactoryInterface, error) {
 	code := constant.REDIS
 
-	rfi, err := datastorefactory.GetDataStoreFbMap(code).Build(c, enabledTx)
+	rfi, err := datastorefactory.GetDataStoreFbMap(code).Build(c, !constant.ENABLETX)
 	if err != nil {
 		return nil, err
 	}

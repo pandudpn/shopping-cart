@@ -1,10 +1,14 @@
 package user
 
-import "github.com/pandudpn/shopping-cart/src/domain/model"
+import (
+	"github.com/pandudpn/shopping-cart/src/domain/model"
+)
 
 const (
-	QUERY_USER_BY_EMAIL = "select id, name, email from users where email=$1"
-	QUERY_USER_BY_PHONE = "select id, name, email from users where phone=$1"
+	QUERY_USER_SELECT   = "select id, name, email, phone, password, enabled, email_verified_at from public.user "
+	QUERY_USER_BY_EMAIL = QUERY_USER_SELECT + "where email=$1"
+	QUERY_USER_BY_PHONE = QUERY_USER_SELECT + "where phone=$1"
+	QUERY_USER_BY_ID    = QUERY_USER_SELECT + "where id=$1"
 )
 
 func (ur *UserRepository) FindByEmail(email string) (*model.User, error) {
@@ -14,10 +18,13 @@ func (ur *UserRepository) FindByEmail(email string) (*model.User, error) {
 }
 
 func (ur *UserRepository) FindByPhone(phone string) (*model.User, error) {
-	rows, err := ur.DB.Query(QUERY_USER_BY_PHONE, phone)
-	if err != nil {
-		return nil, err
-	}
+	row := ur.DB.QueryRow(QUERY_USER_BY_PHONE, phone)
 
-	return retrieveUser(rows)
+	return rowToUser(row)
+}
+
+func (ur *UserRepository) FindById(id int) (*model.User, error) {
+	row := ur.DB.QueryRow(QUERY_USER_BY_ID, id)
+
+	return rowToUser(row)
 }

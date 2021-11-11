@@ -21,8 +21,9 @@ func (rh *RouteHandler) Route() *echo.Echo {
 	e.HideBanner = true
 	e.Use(echoMiddleware.Logger())
 
-	user := e.Group("/user")
-	user.POST("", rh.User.LoginHandler)
+	auth := e.Group("/auth")
+	auth.POST("/login", rh.User.LoginHandler)
+	auth.POST("/register", rh.User.RegisterHandler)
 
 	return e
 }

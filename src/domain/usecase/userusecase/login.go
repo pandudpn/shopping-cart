@@ -2,17 +2,40 @@ package userusecase
 
 import (
 	"context"
+	"errors"
 
+	"github.com/pandudpn/shopping-cart/src/api/presenter/userpresenter"
 	"github.com/pandudpn/shopping-cart/src/domain/model"
+	"github.com/pandudpn/shopping-cart/src/utils"
 	"github.com/pandudpn/shopping-cart/src/utils/logger"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func (uu *UserUseCase) LoginUser(ctx context.Context, user *model.User) (*model.User, error) {
-	user, err := uu.UserRepo.FindByEmail(user.Email)
+func (uu *UserUseCase) LoginUser(ctx context.Context, req *model.RequestLogin) utils.ResponseInterface {
+	user, err := uu.getUserByEmail(req.Email, false)
 	if err != nil {
-		logger.Log.Errorf("error get user by email %v", err)
-		return nil, err
+		return userpresenter.ResponseLogin(nil, err)
 	}
 
-	return user, nil
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
+		logger.Log.Error(err)
+		err = errors.New("user.password.not_match")
+
+		return userpresenter.ResponseLogin(nil, err)
+	}
+
+	token, err := uu.RedisRepo.SetSession(user)
+	if err != nil {
+		logger.Log.Errorf("error create session %v", err)
+		err = errors.New("session.create.error")
+
+		return userpresenter.ResponseLogin(nil, err)
+	}
+
+	res := map[string]interface{}{
+		"tokenType":   "Bearer",
+		"accessToken": token,
+	}
+
+	return userpresenter.ResponseLogin(res, nil)
 }

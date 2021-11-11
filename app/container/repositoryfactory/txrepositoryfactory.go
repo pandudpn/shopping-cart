@@ -5,21 +5,21 @@ import (
 	"github.com/pandudpn/shopping-cart/app/constant"
 	"github.com/pandudpn/shopping-cart/app/container"
 	"github.com/pandudpn/shopping-cart/app/container/datastorefactory"
-	"github.com/pandudpn/shopping-cart/src/repository/user"
+	"github.com/pandudpn/shopping-cart/src/repository/sqltx"
 )
 
-type userRepositoryFactory struct{}
+type txRepositoryFactory struct{}
 
-func (urf *userRepositoryFactory) Build(c container.Container) (RepositoryFactoryInterface, error) {
+func (trf *txRepositoryFactory) Build(c container.Container) (RepositoryFactoryInterface, error) {
 	code := constant.PSQL
 
-	dsfi, err := datastorefactory.GetDataStoreFbMap(code).Build(c, !constant.ENABLETX)
+	dsfi, err := datastorefactory.GetDataStoreFbMap(code).Build(c, constant.ENABLETX)
 	if err != nil {
 		return nil, err
 	}
 
 	rus := dsfi.(dbc.SqlDbc)
-	ur := user.UserRepository{DB: rus}
+	ur := sqltx.TxRepository{DB: rus}
 
 	return &ur, nil
 }

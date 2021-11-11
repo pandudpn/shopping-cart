@@ -21,6 +21,5 @@ func DatabaseConnection() *sql.DB {
 		panic(err)
 	}
 
-	logger.Log.Debug("psql connected")
 	return db
 }

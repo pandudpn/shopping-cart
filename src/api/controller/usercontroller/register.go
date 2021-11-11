@@ -9,18 +9,18 @@ import (
 	"github.com/pandudpn/shopping-cart/src/utils/logger"
 )
 
-func (uc *UserController) LoginHandler(e echo.Context) error {
+func (uc *UserController) RegisterHandler(e echo.Context) error {
 	var (
 		req     = e.Request()
 		ctx     = req.Context()
-		payload = &model.RequestLogin{}
+		payload = &model.RequestRegister{}
 	)
 
 	if err := e.Bind(&payload); err != nil {
 		logger.Log.Errorf("error parsing payload register %v", err)
 		err = errors.New("body.payload")
-		return userpresenter.ResponseLogin(nil, err).JSON(e)
+		return userpresenter.ResponseRegister(nil, err).JSON(e)
 	}
 
-	return uc.UserUseCase.LoginUser(ctx, payload).JSON(e)
+	return uc.UserUseCase.RegisterUser(ctx, payload).JSON(e)
 }

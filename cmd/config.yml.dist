@@ -2,3 +2,9 @@ application:
   port: 8000
 db:
   dsn: user=postgres password= host= port=5432 dbname= sslmode=disable TimeZone=Asia/Jakarta
+redis:
+  dsn: 127.0.0.1:6379
+  password: 
+  dbnum: 0
+session:
+  expired: 129600m # 90 hari

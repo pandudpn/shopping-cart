@@ -7,10 +7,18 @@ import (
 	"context"
 
 	"github.com/pandudpn/shopping-cart/src/domain/model"
+	"github.com/pandudpn/shopping-cart/src/utils"
 )
 
 // UserUseCaseInterface adalah usecase untuk user melakukan registrasi, login, ataupun yang lainnya
 // interface ini support untuk transaction (*sql.Tx)
 type UserUseCaseInterface interface {
-	LoginUser(ctx context.Context, user *model.User) (*model.User, error)
+	// LoginUser adalah case user untuk melakukan login ke dalam aplikasi
+	// didalam method ini terdapat berbagai validasi seperti password dan juga email
+	LoginUser(ctx context.Context, req *model.RequestLogin) utils.ResponseInterface
+	// RegisterUser adalah case user untuk membuat akun baru agar bisa dapat meng-akses aplikasi
+	// didalam method ini ada berbagai validasi seperti pengecekan email, no-telp agar tidak terjadi duplicate data
+	// method ini juga menggunakan *sql.Tx sebagai query ke database
+	// agar jika terjadi error bisa dapat di rollback
+	RegisterUser(ctx context.Context, req *model.RequestRegister) utils.ResponseInterface
 }

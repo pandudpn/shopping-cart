@@ -22,7 +22,7 @@ func retrieveUser(rows *sql.Rows) (*model.User, error) {
 func rowsToUser(rows *sql.Rows) (*model.User, error) {
 	user := model.User{}
 
-	err := rows.Scan(&user.Id, &user.Name, &user.Email)
+	err := rows.Scan(&user.Id, &user.Name, &user.Email, &user.Phone, &user.Enabled, &user.EmailVerifiedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func rowsToUser(rows *sql.Rows) (*model.User, error) {
 func rowToUser(row *sql.Row) (*model.User, error) {
 	user := model.User{}
 
-	err := row.Scan(&user.Id, &user.Name, &user.Email)
+	err := row.Scan(&user.Id, &user.Name, &user.Email, &user.Phone, &user.Password, &user.Enabled, &user.EmailVerifiedAt)
 	if err != nil {
 		return nil, err
 	}
