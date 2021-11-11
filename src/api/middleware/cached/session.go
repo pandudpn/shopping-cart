@@ -10,6 +10,7 @@ import (
 
 	"github.com/pandudpn/shopping-cart/app/adapter/dbc"
 	"github.com/pandudpn/shopping-cart/src/domain/model"
+	"github.com/pandudpn/shopping-cart/src/utils/logger"
 )
 
 type CacheKey int
@@ -65,6 +66,7 @@ func (sm *SessionMiddleware) CheckSession(next http.Handler) http.Handler {
 		//
 		// if res.Err() != nil && res.Err() == redis.Nil {
 		if res.Err() != nil {
+			logger.Log.Errorf("error redis %v", res.Err())
 			responseError(rw, http.StatusUnauthorized, SessionExpired, getErrorMessage(SessionExpired), err)
 			return
 		}
@@ -74,6 +76,7 @@ func (sm *SessionMiddleware) CheckSession(next http.Handler) http.Handler {
 
 		err = json.Unmarshal([]byte(sessToken), &user)
 		if err != nil {
+			logger.Log.Errorf("error unmarshal token %v", err)
 			responseError(rw, http.StatusInternalServerError, SystemError, getErrorMessage(SystemError), err)
 			return
 		}
