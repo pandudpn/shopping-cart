@@ -15,7 +15,7 @@ import (
 type UserUseCaseInterface interface {
 	// LoginUser adalah case user untuk melakukan login ke dalam aplikasi
 	// didalam method ini terdapat berbagai validasi seperti password dan juga email
-	LoginUser(ctx context.Context, email string) utils.ResponseInterface
+	LoginUser(ctx context.Context, req *model.RequestLogin) utils.ResponseInterface
 	// RegisterUser adalah case user untuk membuat akun baru agar bisa dapat meng-akses aplikasi
 	// didalam method ini ada berbagai validasi seperti pengecekan email, no-telp agar tidak terjadi duplicate data
 	// method ini juga menggunakan *sql.Tx sebagai query ke database

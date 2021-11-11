@@ -7,24 +7,26 @@ import (
 )
 
 var (
-	errGlobal         string = "Terjadi kesalahan pada server, silakan coba beberapa saat lagi"
-	userEmailNotFound string = "user.email.not_found"
-	userPhoneNotFound string = "user.phone.not_found"
-	userNotActive     string = "user.not_active"
-	queryError        string = "query.find.error"
-	insertError       string = "query.insert.error"
-	bodyPayload       string = "body.payload"
-	errCreateSession  string = "session.create.error"
-	loginSuccess      string = "login.success"
+	errGlobal            string = "Terjadi kesalahan pada server, silakan coba beberapa saat lagi"
+	userEmailNotFound    string = "user.email.not_found"
+	userPhoneNotFound    string = "user.phone.not_found"
+	userNotActive        string = "user.not_active"
+	userPasswordNotMatch string = "user.password.not_match"
+	queryError           string = "query.find.error"
+	insertError          string = "query.insert.error"
+	bodyPayload          string = "body.payload"
+	errCreateSession     string = "session.create.error"
+	loginSuccess         string = "login.success"
 
 	message = map[string]string{
-		userEmailNotFound: "User tidak ditemukan",
-		userPhoneNotFound: "User tidak ditemukan",
-		userNotActive:     "User belum aktif",
-		queryError:        errGlobal,
-		insertError:       errGlobal,
-		errCreateSession:  errGlobal,
-		bodyPayload:       "Permintaan kamu tidak lengkap",
+		userEmailNotFound:    "User tidak ditemukan",
+		userPhoneNotFound:    "User tidak ditemukan",
+		userNotActive:        "User belum aktif",
+		userPasswordNotMatch: "Email atau password tidak sesuai",
+		queryError:           errGlobal,
+		insertError:          errGlobal,
+		errCreateSession:     errGlobal,
+		bodyPayload:          "Permintaan kamu tidak lengkap",
 
 		registerSuccess:   "Register berhasil, silahkan login sekarang juga",
 		emailAlreadyTaken: "Email sudah digunakan",
@@ -33,10 +35,11 @@ var (
 	}
 
 	systemCode = map[string]string{
-		loginSuccess:      "10",
-		userEmailNotFound: "12",
-		userPhoneNotFound: "13",
-		userNotActive:     "14",
+		loginSuccess:         "10",
+		userEmailNotFound:    "12",
+		userPhoneNotFound:    "13",
+		userNotActive:        "14",
+		userPasswordNotMatch: "15",
 
 		registerSuccess:   "20",
 		emailAlreadyTaken: "22",
@@ -50,17 +53,18 @@ var (
 	}
 
 	statusCode = map[string]int{
-		loginSuccess:      http.StatusOK,
-		userEmailNotFound: http.StatusNotFound,
-		userPhoneNotFound: http.StatusNotFound,
-		userNotActive:     http.StatusUnprocessableEntity,
-		registerSuccess:   http.StatusCreated,
-		emailAlreadyTaken: http.StatusBadRequest,
-		phoneAlreadyTaken: http.StatusBadRequest,
-		phoneInvalid:      http.StatusBadRequest,
-		queryError:        http.StatusInternalServerError,
-		insertError:       http.StatusInternalServerError,
-		errCreateSession:  http.StatusInternalServerError,
+		loginSuccess:         http.StatusOK,
+		userEmailNotFound:    http.StatusNotFound,
+		userPhoneNotFound:    http.StatusNotFound,
+		userNotActive:        http.StatusUnprocessableEntity,
+		userPasswordNotMatch: http.StatusBadRequest,
+		registerSuccess:      http.StatusCreated,
+		emailAlreadyTaken:    http.StatusBadRequest,
+		phoneAlreadyTaken:    http.StatusBadRequest,
+		phoneInvalid:         http.StatusBadRequest,
+		queryError:           http.StatusInternalServerError,
+		insertError:          http.StatusInternalServerError,
+		errCreateSession:     http.StatusInternalServerError,
 	}
 )
 
