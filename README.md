@@ -13,7 +13,7 @@ Adapun fitur-fitur yang tersedia pada project ini :
 	- [x] Register
 	- [ ] Forgot Password
 * Product
-	- [ ] List Product
+	- [x] List Product
 	- [ ] Product Detail
 * Cart
 	- [ ] Add to cart
