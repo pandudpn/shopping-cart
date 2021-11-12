@@ -8,8 +8,9 @@ import (
 )
 
 type RouteHandler struct {
-	User   controller.UserControllerInterface
-	Cached middleware.CachedMiddlewareInterface
+	User    controller.UserControllerInterface
+	Product controller.ProductControllerInterface
+	Cached  middleware.CachedMiddlewareInterface
 }
 
 type RouteInterface interface {
@@ -24,6 +25,9 @@ func (rh *RouteHandler) Route() *echo.Echo {
 	auth := e.Group("/auth")
 	auth.POST("/login", rh.User.LoginHandler)
 	auth.POST("/register", rh.User.RegisterHandler)
+
+	product := e.Group("/product")
+	product.GET("", rh.Product.GetProductsHandler)
 
 	return e
 }

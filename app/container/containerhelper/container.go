@@ -8,7 +8,7 @@ import (
 )
 
 func GetUserController(c container.Container) (controller.UserControllerInterface, error) {
-	key := "user"
+	key := constant.USER
 
 	uci, err := c.BuildController(key)
 	if err != nil {
@@ -16,6 +16,17 @@ func GetUserController(c container.Container) (controller.UserControllerInterfac
 	}
 
 	return uci.(controller.UserControllerInterface), nil
+}
+
+func GetProductController(c container.Container) (controller.ProductControllerInterface, error) {
+	key := constant.PRODUCT
+
+	pci, err := c.BuildController(key)
+	if err != nil {
+		return nil, err
+	}
+
+	return pci.(controller.ProductControllerInterface), nil
 }
 
 func GetCachedMiddleware(c container.Container) (middleware.CachedMiddlewareInterface, error) {

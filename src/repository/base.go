@@ -25,6 +25,22 @@ type RedisRepositoryInterface interface {
 	GetSession(key string) (*model.User, error)
 }
 
+// ProductRepositoryInterface digunakan untuk kumpulan query untuk table product
+type ProductRepositoryInterface interface {
+	// FindAllProducts akan menampilkan seluruh data product
+	// method ini belum support dynamic sorting dan juga pagination
+	// jika ingin menggunakan dynamic sorting ataupun pagination, silahkan tambahkan sendiri
+	FindAllProducts() ([]*model.Product, error)
+	// FindProductById akan menampilkan single data product berdasarkan id
+	FindProductById(id int) (*model.Product, error)
+	// FindProductBySlug akan menampilkan single data product berdasarkan slug
+	FindProductBySlug(slug string) (*model.Product, error)
+	// FindProductsByName akan data-data produk berdasarkan produk yg dicari (search product)
+	FindProductsByName(name string) ([]*model.Product, error)
+}
+
+type ProductCategoryRepositoryInterface interface{}
+
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya
 type TxRepositoryInterface interface {
 	TxEnd(txFunc func() error) error

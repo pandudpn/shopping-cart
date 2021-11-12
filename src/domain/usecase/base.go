@@ -22,3 +22,9 @@ type UserUseCaseInterface interface {
 	// agar jika terjadi error bisa dapat di rollback
 	RegisterUser(ctx context.Context, req *model.RequestRegister) utils.ResponseInterface
 }
+
+// ProductUseCaseInterface adalah usecase untuk user melakukan pencarian produk atau mengambil data seluruh produk
+// ataupun detail produk
+type ProductUseCaseInterface interface {
+	GetAllProducts(limit, page int, search string) utils.ResponseInterface
+}
