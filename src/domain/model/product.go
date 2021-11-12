@@ -19,6 +19,7 @@ type Product struct {
 	// untuk relasi, silakan tambahkan struct dibawah
 	// dan jangan lupa di inject pada setiap query
 	Category *ProductCategory
+	Images   []*ProductImage
 }
 
 func NewProduct() *Product {
@@ -39,4 +40,25 @@ func (p *Product) SetCategory(category *ProductCategory) {
 
 func (p *Product) GetCategory() *ProductCategory {
 	return p.Category
+}
+
+func (p *Product) SetImages(images []*ProductImage) {
+	p.Images = images
+}
+
+func (p *Product) AddImage(image *ProductImage) {
+	p.Images = append(p.Images, image)
+}
+
+func (p *Product) RemoveImage(image *ProductImage) {
+	for idx, img := range p.Images {
+		if img.Id == image.Id {
+			p.Images = append(p.Images[:idx], p.Images[idx+1:]...)
+			break
+		}
+	}
+}
+
+func (p *Product) GetImages() []*ProductImage {
+	return p.Images
 }

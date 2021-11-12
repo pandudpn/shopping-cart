@@ -14,6 +14,8 @@ var rFbMap = map[string]repositoryFbInterface{
 	constant.TX:              &txRepositoryFactory{},
 	constant.PRODUCT:         &productRepositoryFactory{},
 	constant.PRODUCTCATEGORY: &productCategoryRepositoryFactory{},
+	constant.PRODUCTIMAGE:    &productImageRepositoryFactory{},
+	constant.MEDIAFILE:       &mediaFileRepositoryFactory{},
 }
 
 type RepositoryFactoryInterface interface{}

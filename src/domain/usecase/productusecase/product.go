@@ -36,6 +36,16 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 			return productpresenter.ResponseProducts(nil, err)
 		}
 
+		for _, product := range p {
+			images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
+			if err != nil {
+				logger.Log.Error(err)
+				continue
+			}
+
+			product.SetImages(images)
+		}
+
 		products = p
 	} else {
 		p, err := puu.ProductRepo.FindProductsByName(search)
@@ -43,6 +53,16 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 			logger.Log.Errorf("error get products by search %v", err)
 			err = errors.New("query.find.error")
 			return productpresenter.ResponseProducts(nil, err)
+		}
+
+		for _, product := range p {
+			images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
+			if err != nil {
+				logger.Log.Error(err)
+				continue
+			}
+
+			product.SetImages(images)
 		}
 
 		products = p

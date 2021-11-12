@@ -6,5 +6,6 @@ import (
 
 type ProductUseCase struct {
 	ProductRepo  repository.ProductRepositoryInterface
+	ImageRepo    repository.ProductImageRepositoryInterface
 	CategoryRepo repository.ProductCategoryRepositoryInterface
 }

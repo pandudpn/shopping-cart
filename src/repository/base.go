@@ -39,6 +39,13 @@ type ProductRepositoryInterface interface {
 	FindProductsByName(name string) ([]*model.Product, error)
 }
 
+// ProductImageRepositoryInterface adalah kumpulan query-query untuk mengambil image product
+type ProductImageRepositoryInterface interface {
+	// FindImagesByProductId akan mengembalikan array data product image yang sudah di relasikan
+	// ke table media_file
+	FindImagesByProductId(productId int) ([]*model.ProductImage, error)
+}
+
 type ProductCategoryRepositoryInterface interface{}
 
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya

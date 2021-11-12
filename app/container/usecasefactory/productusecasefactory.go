@@ -19,14 +19,20 @@ func (pucf *productUseCaseFactory) Build(c container.Container) (UseCaseFactoryI
 	pri := prfi.(repository.ProductRepositoryInterface)
 
 	code = constant.PRODUCTCATEGORY
-
 	pcrfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
 	if err != nil {
 		return nil, err
 	}
 	pcri := pcrfi.(repository.ProductCategoryRepositoryInterface)
 
-	puc := productusecase.ProductUseCase{ProductRepo: pri, CategoryRepo: pcri}
+	code = constant.PRODUCTIMAGE
+	pirfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
+	if err != nil {
+		return nil, err
+	}
+	piri := pirfi.(repository.ProductImageRepositoryInterface)
+
+	puc := productusecase.ProductUseCase{ProductRepo: pri, CategoryRepo: pcri, ImageRepo: piri}
 
 	return &puc, nil
 }

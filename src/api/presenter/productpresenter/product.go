@@ -25,12 +25,17 @@ type productsView struct {
 	Qty             int           `json:"qty"`
 	CreatedAt       string        `json:"createdAt"`
 	Category        *categoryView `json:"category"`
+	Images          []*imageView  `json:"images"`
 }
 
 type categoryView struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
 	Slug string `json:"slug"`
+}
+
+type imageView struct {
+	Url string `json:"url"`
 }
 
 var (
@@ -106,6 +111,19 @@ func createProductsView(products []*model.Product) []*productsView {
 				Slug: product.Category.Slug,
 			}
 			productView.Category = category
+		}
+
+		if len(product.GetImages()) > 0 {
+			images := make([]*imageView, 0)
+			for _, image := range product.GetImages() {
+				img := &imageView{
+					Url: image.GetImage().GetFile(),
+				}
+
+				images = append(images, img)
+			}
+
+			productView.Images = images
 		}
 
 		productViews = append(productViews, productView)
