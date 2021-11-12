@@ -28,13 +28,19 @@ func App() {
 		panic(err)
 	}
 
+	productController, err := containerhelper.GetProductController(c)
+	if err != nil {
+		logger.Log.Error(err)
+		panic(err)
+	}
+
 	cachedMiddleware, err := containerhelper.GetCachedMiddleware(c)
 	if err != nil {
 		logger.Log.Error(err)
 		panic(err)
 	}
 
-	routes := routes.RouteHandler{User: userController, Cached: cachedMiddleware}
+	routes := routes.RouteHandler{User: userController, Cached: cachedMiddleware, Product: productController}
 	router := routes.Route()
 
 	logger.Log.Fatal(router.Start(port))

@@ -13,3 +13,8 @@ type UserControllerInterface interface {
 	LoginHandler(e echo.Context) error
 	RegisterHandler(e echo.Context) error
 }
+
+// ProductControllerInterface adalah kumpulan controller/handler products
+type ProductControllerInterface interface {
+	GetProductsHandler(e echo.Context) error
+}
