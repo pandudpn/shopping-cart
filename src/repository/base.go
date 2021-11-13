@@ -52,6 +52,15 @@ type ProductImageRepositoryInterface interface {
 
 type ProductCategoryRepositoryInterface interface{}
 
+// CartRepositoryInterface adalah kumpulan query-query untuk mengambil/menambahkan/mengubah data cart
+type CartRepositoryInterface interface {
+	// FindActiveCartByUserId mengembalikan cart yg masih aktif pada user tersebut
+	// (cart teerakhir yg aktif)
+	FindActiveCartByUserId(userId int) (*model.Cart, error)
+	// FindCartByKey digunakan untuk mengambil data cart untuk melakukan checkout data
+	FindCartByKey(key string) (*model.Cart, error)
+}
+
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya
 type TxRepositoryInterface interface {
 	TxEnd(txFunc func() error) error
