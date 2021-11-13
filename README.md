@@ -14,7 +14,7 @@ Adapun fitur-fitur yang tersedia pada project ini :
 	- [ ] Forgot Password
 * Product
 	- [x] List Product
-	- [ ] Product Detail
+	- [x] Product Detail
 * Cart
 	- [ ] Add to cart
 	- [ ] Add quantity product
