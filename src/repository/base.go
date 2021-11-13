@@ -23,6 +23,10 @@ type RedisRepositoryInterface interface {
 	// GetSession untuk mengambil data session dari redis
 	// biasanya method ini digunakan pada level middleware
 	GetSession(key string) (*model.User, error)
+	// SaveProductsCache digunakan untuk menyimpan data product berdasarkan limit dan juga pagination
+	// hasil dari key tersebut berupa `products-{limit}-{page}`
+	// jika terdapat pencarian product maka key menjadi `products-{limit}-{page}-{search}`
+	SaveProductsCache(i interface{}, searchProduct string) error
 }
 
 // ProductRepositoryInterface digunakan untuk kumpulan query untuk table product
