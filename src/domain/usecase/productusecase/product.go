@@ -33,7 +33,17 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 		if err != nil {
 			logger.Log.Errorf("error get all products %v", err)
 			err = errors.New("query.find.error")
-			return productpresenter.ResponseProducts(nil, err)
+			return productpresenter.ResponseProducts(nil, err, nil)
+		}
+
+		for _, product := range p {
+			images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
+			if err != nil {
+				logger.Log.Error(err)
+				continue
+			}
+
+			product.SetImages(images)
 		}
 
 		products = p
@@ -42,7 +52,17 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 		if err != nil {
 			logger.Log.Errorf("error get products by search %v", err)
 			err = errors.New("query.find.error")
-			return productpresenter.ResponseProducts(nil, err)
+			return productpresenter.ResponseProducts(nil, err, nil)
+		}
+
+		for _, product := range p {
+			images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
+			if err != nil {
+				logger.Log.Error(err)
+				continue
+			}
+
+			product.SetImages(images)
 		}
 
 		products = p
@@ -65,7 +85,41 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 
 	products = products[offset:limit]
 
+	res["searchProduct"] = search
 	res["products"] = products
 
-	return productpresenter.ResponseProducts(res, nil)
+	return productpresenter.ResponseProducts(res, nil, puu.Redis)
+}
+
+func (puu *ProductUseCase) DetailProductById(id int) utils.ResponseInterface {
+	product, err := puu.ProductRepo.FindProductById(id)
+	if err != nil {
+		logger.Log.Error(err)
+		err = errors.New("product.not_found")
+		return productpresenter.ResponseProducts(nil, err, nil)
+	}
+
+	return puu.returnDetailProduct(product)
+}
+
+func (puu *ProductUseCase) DetailProductBySlug(slug string) utils.ResponseInterface {
+	product, err := puu.ProductRepo.FindProductBySlug(slug)
+	if err != nil {
+		logger.Log.Error(err)
+		err = errors.New("product.not_found")
+		return productpresenter.ResponseProducts(nil, err, nil)
+	}
+
+	return puu.returnDetailProduct(product)
+}
+
+func (puu *ProductUseCase) returnDetailProduct(product *model.Product) utils.ResponseInterface {
+	images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
+	if err != nil {
+		logger.Log.Error(err)
+	} else {
+		product.SetImages(images)
+	}
+
+	return productpresenter.ResponseProducts(product, nil, nil)
 }

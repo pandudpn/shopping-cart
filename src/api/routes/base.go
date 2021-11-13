@@ -26,8 +26,10 @@ func (rh *RouteHandler) Route() *echo.Echo {
 	auth.POST("/login", rh.User.LoginHandler)
 	auth.POST("/register", rh.User.RegisterHandler)
 
+	// product := e.Group("/product", echo.WrapMiddleware(rh.Cached.CachedData))
 	product := e.Group("/product")
 	product.GET("", rh.Product.GetProductsHandler)
+	product.GET("/:id", rh.Product.DetailProductHandler)
 
 	return e
 }

@@ -26,5 +26,10 @@ type UserUseCaseInterface interface {
 // ProductUseCaseInterface adalah usecase untuk user melakukan pencarian produk atau mengambil data seluruh produk
 // ataupun detail produk
 type ProductUseCaseInterface interface {
+	// GetAllProducts akan mengembalikan seluruh data produk yg masih tersedia dan juga enable
 	GetAllProducts(limit, page int, search string) utils.ResponseInterface
+	// DetailProductById mengembalikan satu data produk berdasarkan id
+	DetailProductById(id int) utils.ResponseInterface
+	// DetailProductBySlug mengembalikan satu data produk berdasarkan slug
+	DetailProductBySlug(slug string) utils.ResponseInterface
 }

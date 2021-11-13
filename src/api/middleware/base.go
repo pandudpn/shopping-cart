@@ -8,4 +8,6 @@ import "net/http"
 // digunakan untuk meng-handle data-data cache seperti session login, otp, dll
 type CachedMiddlewareInterface interface {
 	CheckSession(next http.Handler) http.Handler
+	// CachedData untuk mengambil data dari redis
+	CachedData(next http.Handler) http.Handler
 }

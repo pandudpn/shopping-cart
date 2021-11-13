@@ -6,7 +6,7 @@ import (
 )
 
 var mdFbMap = map[string]middlewareFbInterface{
-	constant.CACHED: &cachedMiddlewareFactory{},
+	constant.REDIS: &redisMiddlewareFactory{},
 }
 
 type MiddlewareFactoryInterface interface{}

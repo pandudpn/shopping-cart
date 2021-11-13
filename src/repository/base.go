@@ -23,6 +23,10 @@ type RedisRepositoryInterface interface {
 	// GetSession untuk mengambil data session dari redis
 	// biasanya method ini digunakan pada level middleware
 	GetSession(key string) (*model.User, error)
+	// SaveProductsCache digunakan untuk menyimpan data product berdasarkan limit dan juga pagination
+	// hasil dari key tersebut berupa `products-{limit}-{page}`
+	// jika terdapat pencarian product maka key menjadi `products-{limit}-{page}-{search}`
+	SaveProductsCache(i interface{}, searchProduct string) error
 }
 
 // ProductRepositoryInterface digunakan untuk kumpulan query untuk table product
@@ -37,6 +41,13 @@ type ProductRepositoryInterface interface {
 	FindProductBySlug(slug string) (*model.Product, error)
 	// FindProductsByName akan data-data produk berdasarkan produk yg dicari (search product)
 	FindProductsByName(name string) ([]*model.Product, error)
+}
+
+// ProductImageRepositoryInterface adalah kumpulan query-query untuk mengambil image product
+type ProductImageRepositoryInterface interface {
+	// FindImagesByProductId akan mengembalikan array data product image yang sudah di relasikan
+	// ke table media_file
+	FindImagesByProductId(productId int) ([]*model.ProductImage, error)
 }
 
 type ProductCategoryRepositoryInterface interface{}
