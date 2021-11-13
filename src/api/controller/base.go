@@ -17,4 +17,5 @@ type UserControllerInterface interface {
 // ProductControllerInterface adalah kumpulan controller/handler products
 type ProductControllerInterface interface {
 	GetProductsHandler(e echo.Context) error
+	DetailProductHandler(e echo.Context) error
 }

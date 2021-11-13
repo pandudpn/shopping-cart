@@ -46,14 +46,17 @@ var (
 	queryError      string = "query.find.error"
 	bodyPayload     string = "body.payload"
 	productsSuccess string = "products.success"
+	productNotFound string = "product.not_found"
 
 	message = map[string]string{
-		queryError:  errGlobal,
-		bodyPayload: "Permintaan kamu tidak lengkap",
+		queryError:      errGlobal,
+		bodyPayload:     "Permintaan kamu tidak lengkap",
+		productNotFound: "Produk tidak ditemukan",
 	}
 
 	systemCode = map[string]string{
 		productsSuccess: "30",
+		productNotFound: "32",
 
 		bodyPayload: "80",
 		queryError:  "81",
@@ -61,6 +64,7 @@ var (
 
 	statusCode = map[string]int{
 		productsSuccess: http.StatusOK,
+		productNotFound: http.StatusNotFound,
 		bodyPayload:     http.StatusBadRequest,
 		queryError:      http.StatusInternalServerError,
 	}
@@ -88,48 +92,56 @@ func ResponseProducts(value interface{}, err error, redis repository.RedisReposi
 		return utils.Success(statusCode[productsSuccess], systemCode[productsSuccess], res)
 	}
 
-	return utils.Success(statusCode[productsSuccess], systemCode[productsSuccess], value)
+	product := value.(*model.Product)
+	pv := productView(product)
+
+	return utils.Success(statusCode[productsSuccess], systemCode[productsSuccess], pv)
 }
 
 func createProductsView(products []*model.Product) []*productsView {
 	var productViews = make([]*productsView, 0)
 
 	for _, product := range products {
-		productView := &productsView{
-			Id:              product.Id,
-			Name:            product.Name,
-			Slug:            product.Slug,
-			Description:     *product.Description,
-			Price:           int(product.Price),
-			DiscountedPrice: int(product.DiscountedPrice),
-			Qty:             product.Qty,
-			CreatedAt:       product.CreatedAt.Format(layoutTime),
-		}
-
-		if product.Category != nil {
-			category := &categoryView{
-				Id:   product.Category.Id,
-				Name: product.Category.Name,
-				Slug: product.Category.Slug,
-			}
-			productView.Category = category
-		}
-
-		if len(product.GetImages()) > 0 {
-			images := make([]*imageView, 0)
-			for _, image := range product.GetImages() {
-				img := &imageView{
-					Url: image.GetImage().GetFile(),
-				}
-
-				images = append(images, img)
-			}
-
-			productView.Images = images
-		}
-
-		productViews = append(productViews, productView)
+		pv := productView(product)
+		productViews = append(productViews, pv)
 	}
 
 	return productViews
+}
+
+func productView(product *model.Product) *productsView {
+	productView := &productsView{
+		Id:              product.Id,
+		Name:            product.Name,
+		Slug:            product.Slug,
+		Description:     *product.Description,
+		Price:           int(product.Price),
+		DiscountedPrice: int(product.DiscountedPrice),
+		Qty:             product.Qty,
+		CreatedAt:       product.CreatedAt.Format(layoutTime),
+	}
+
+	if product.Category != nil {
+		category := &categoryView{
+			Id:   product.Category.Id,
+			Name: product.Category.Name,
+			Slug: product.Category.Slug,
+		}
+		productView.Category = category
+	}
+
+	if len(product.GetImages()) > 0 {
+		images := make([]*imageView, 0)
+		for _, image := range product.GetImages() {
+			img := &imageView{
+				Url: image.GetImage().GetFile(),
+			}
+
+			images = append(images, img)
+		}
+
+		productView.Images = images
+	}
+
+	return productView
 }

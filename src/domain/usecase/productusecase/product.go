@@ -90,3 +90,36 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 
 	return productpresenter.ResponseProducts(res, nil, puu.Redis)
 }
+
+func (puu *ProductUseCase) DetailProductById(id int) utils.ResponseInterface {
+	product, err := puu.ProductRepo.FindProductById(id)
+	if err != nil {
+		logger.Log.Error(err)
+		err = errors.New("product.not_found")
+		return productpresenter.ResponseProducts(nil, err, nil)
+	}
+
+	return puu.returnDetailProduct(product)
+}
+
+func (puu *ProductUseCase) DetailProductBySlug(slug string) utils.ResponseInterface {
+	product, err := puu.ProductRepo.FindProductBySlug(slug)
+	if err != nil {
+		logger.Log.Error(err)
+		err = errors.New("product.not_found")
+		return productpresenter.ResponseProducts(nil, err, nil)
+	}
+
+	return puu.returnDetailProduct(product)
+}
+
+func (puu *ProductUseCase) returnDetailProduct(product *model.Product) utils.ResponseInterface {
+	images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
+	if err != nil {
+		logger.Log.Error(err)
+	} else {
+		product.SetImages(images)
+	}
+
+	return productpresenter.ResponseProducts(product, nil, nil)
+}

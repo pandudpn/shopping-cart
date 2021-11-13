@@ -29,7 +29,7 @@ func (rh *RouteHandler) Route() *echo.Echo {
 	// product := e.Group("/product", echo.WrapMiddleware(rh.Cached.CachedData))
 	product := e.Group("/product")
 	product.GET("", rh.Product.GetProductsHandler)
-	product.GET("/:id", rh.Product.GetProductsHandler)
+	product.GET("/:id", rh.Product.DetailProductHandler)
 
 	return e
 }
