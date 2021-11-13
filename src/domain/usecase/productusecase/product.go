@@ -33,7 +33,7 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 		if err != nil {
 			logger.Log.Errorf("error get all products %v", err)
 			err = errors.New("query.find.error")
-			return productpresenter.ResponseProducts(nil, err)
+			return productpresenter.ResponseProducts(nil, err, nil)
 		}
 
 		for _, product := range p {
@@ -52,7 +52,7 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 		if err != nil {
 			logger.Log.Errorf("error get products by search %v", err)
 			err = errors.New("query.find.error")
-			return productpresenter.ResponseProducts(nil, err)
+			return productpresenter.ResponseProducts(nil, err, nil)
 		}
 
 		for _, product := range p {
@@ -85,7 +85,8 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 
 	products = products[offset:limit]
 
+	res["searchProduct"] = search
 	res["products"] = products
 
-	return productpresenter.ResponseProducts(res, nil)
+	return productpresenter.ResponseProducts(res, nil, puu.Redis)
 }

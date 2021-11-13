@@ -5,6 +5,7 @@ import (
 )
 
 type ProductUseCase struct {
+	Redis        repository.RedisRepositoryInterface
 	ProductRepo  repository.ProductRepositoryInterface
 	ImageRepo    repository.ProductImageRepositoryInterface
 	CategoryRepo repository.ProductCategoryRepositoryInterface
