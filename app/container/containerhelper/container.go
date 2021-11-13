@@ -30,7 +30,7 @@ func GetProductController(c container.Container) (controller.ProductControllerIn
 }
 
 func GetCachedMiddleware(c container.Container) (middleware.CachedMiddlewareInterface, error) {
-	mfi, err := c.BuildMiddleware(constant.CACHED)
+	mfi, err := c.BuildMiddleware(constant.REDIS)
 	if err != nil {
 		return nil, err
 	}

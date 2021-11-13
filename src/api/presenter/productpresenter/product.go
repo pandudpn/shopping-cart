@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/pandudpn/shopping-cart/src/domain/model"
+	"github.com/pandudpn/shopping-cart/src/repository"
 	"github.com/pandudpn/shopping-cart/src/utils"
 )
 
@@ -65,7 +66,7 @@ var (
 	}
 )
 
-func ResponseProducts(value interface{}, err error) utils.ResponseInterface {
+func ResponseProducts(value interface{}, err error, redis repository.RedisRepositoryInterface) utils.ResponseInterface {
 	if err != nil {
 		errString := err.Error()
 		return utils.Error(statusCode[errString], systemCode[errString], message[errString], err)
@@ -83,6 +84,7 @@ func ResponseProducts(value interface{}, err error) utils.ResponseInterface {
 			res.Products = productViews
 		}
 
+		// go redis.SaveProductsCache(res, key["searchProduct"].(string))
 		return utils.Success(statusCode[productsSuccess], systemCode[productsSuccess], res)
 	}
 

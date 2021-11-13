@@ -8,16 +8,16 @@ import (
 	"github.com/pandudpn/shopping-cart/src/api/middleware/cached"
 )
 
-type cachedMiddlewareFactory struct{}
+type redisMiddlewareFactory struct{}
 
-func (cmf *cachedMiddlewareFactory) Build(c container.Container) (MiddlewareFactoryInterface, error) {
+func (rmf *redisMiddlewareFactory) Build(c container.Container) (MiddlewareFactoryInterface, error) {
 	dsrf, err := datastorefactory.GetDataStoreFbMap(constant.REDIS).Build(c, !constant.ENABLETX)
 	if err != nil {
 		return nil, err
 	}
 
 	dsr := dsrf.(dbc.RDbc)
-	cm := cached.SessionMiddleware{RedisDb: dsr}
+	rm := cached.RedisMiddleware{RedisDb: dsr}
 
-	return &cm, nil
+	return &rm, nil
 }

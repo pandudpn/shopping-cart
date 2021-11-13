@@ -18,6 +18,7 @@ type CacheKey int
 const (
 	CtxUserId        = CacheKey(12)
 	bearerToken      = "Bearer"
+	CachedData       = "01"
 	AuthorizationNil = "91"
 	InvalidToken     = "92"
 	SessionExpired   = "93"
@@ -31,11 +32,11 @@ var errorMessage = map[string]string{
 	SystemError:      "Something went wrong, please try again later, thank you",
 }
 
-type SessionMiddleware struct {
+type RedisMiddleware struct {
 	RedisDb dbc.RDbc
 }
 
-func (sm *SessionMiddleware) CheckSession(next http.Handler) http.Handler {
+func (rm *RedisMiddleware) CheckSession(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		var err error
 		authorization := r.Header.Get("authorization")
@@ -59,7 +60,7 @@ func (sm *SessionMiddleware) CheckSession(next http.Handler) http.Handler {
 			return
 		}
 
-		res := sm.RedisDb.Get(ctx, token[1])
+		res := rm.RedisDb.Get(ctx, token[1])
 		// anggap saja jika terjadi error pada redis pencarian
 		// di anggap sesi telah berakhir / sessi tidak ditemukan
 		// jika tetap ingin memastikan, please uncomment below

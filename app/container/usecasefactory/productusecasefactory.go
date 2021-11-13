@@ -32,7 +32,20 @@ func (pucf *productUseCaseFactory) Build(c container.Container) (UseCaseFactoryI
 	}
 	piri := pirfi.(repository.ProductImageRepositoryInterface)
 
-	puc := productusecase.ProductUseCase{ProductRepo: pri, CategoryRepo: pcri, ImageRepo: piri}
+	code = constant.REDIS
+	rfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
+	if err != nil {
+		return nil, err
+	}
+
+	rdb := rfi.(repository.RedisRepositoryInterface)
+
+	puc := productusecase.ProductUseCase{
+		Redis:        rdb,
+		ProductRepo:  pri,
+		CategoryRepo: pcri,
+		ImageRepo:    piri,
+	}
 
 	return &puc, nil
 }
