@@ -8,8 +8,9 @@ import (
 
 const (
 	QUERY_PRODUCT_SELECT = "select p.id, p.name, p.slug, description, price, discounted_price, " +
-		"qty, p.enabled, p.created_at, c.id, c.name, c.slug " +
-		"from public.product as p inner join public.product_category as c on c.id = p.category_id "
+		"qty, p.enabled, p.created_at, c.id, c.name, c.slug, s.id, coalesce(s.quantity_hold, 0) " +
+		"from public.product as p inner join public.product_category as c on c.id = p.category_id " +
+		"left join stock s on p.id = s.product_id "
 	QUERY_PRODUCT         = QUERY_PRODUCT_SELECT + "where p.enabled = true order by p.created_at desc"
 	QUERY_PRODUCT_BY_ID   = QUERY_PRODUCT_SELECT + "where p.id = $1"
 	QUERY_PRODUCT_BY_SLUG = QUERY_PRODUCT_SELECT + "where p.slug = $1"

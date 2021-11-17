@@ -11,7 +11,8 @@ import (
 )
 
 type cartManager struct {
-	cartRepo repository.CartRepositoryInterface
+	cartRepo        repository.CartRepositoryInterface
+	cartProductRepo repository.CartProductRepositoryInterface
 }
 
 func NewCartManager(cart repository.CartRepositoryInterface) CartManagerInterface {
@@ -51,7 +52,14 @@ func (cm *cartManager) GetActiveCart(key string, userId int) (*model.Cart, error
 
 		activeCart = cart
 	}
+
 	// query for get all relation cart will be here
+	err := cm.cartProductRepo.FindCartProductsByCartId(activeCart)
+	if err != nil {
+		logger.Log.Errorf("error get products query %v", err)
+		err = errors.New("query.find.error")
+		return nil, err
+	}
 
 	return activeCart, nil
 }

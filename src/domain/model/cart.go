@@ -19,6 +19,8 @@ type Cart struct {
 	UpdatedAt       *time.Time
 
 	// Relation table will be here
+	Products []*CartProduct
+	User     *User
 }
 
 func NewCart() *Cart {
@@ -31,4 +33,33 @@ func NewCart() *Cart {
 		Key:       key,
 		CreatedAt: now,
 	}
+}
+
+func (c *Cart) SetProducts(products []*CartProduct) {
+	c.Products = products
+}
+
+func (c *Cart) AddProduct(product *CartProduct) {
+	c.Products = append(c.Products, product)
+}
+
+func (c *Cart) RemoveProduct(product *CartProduct) {
+	for idx, cartProduct := range c.Products {
+		if product.Id == cartProduct.Id {
+			c.Products = append(c.Products[:idx], c.Products[idx+1:]...)
+			break
+		}
+	}
+}
+
+func (c *Cart) GetProducts() []*CartProduct {
+	return c.Products
+}
+
+func (c *Cart) SetUser(user *User) {
+	c.User = user
+}
+
+func (c *Cart) GetUser() *User {
+	return c.User
 }

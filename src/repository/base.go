@@ -61,6 +61,21 @@ type CartRepositoryInterface interface {
 	FindCartByKey(key string) (*model.Cart, error)
 }
 
+// CartProductRepositoryInterface adalah kumpulan query-query pada table 'cart_product'
+type CartProductRepositoryInterface interface {
+	// FindCartProductsByCartId akan mengambil data 'cart_products' berdasarkan cart_id nya
+	// dan akan langsung di inject ke cart secara langsung
+	FindCartProductsByCartId(cart *model.Cart) error
+}
+
+// StockRepositoryInterface adalah kumpulan query-query untuk mengambil data stock
+type StockRepositoryInterface interface {
+	// FindStockByProductId akan mengambil satu data stock berdasarkan product_id
+	FindStockByProductId(product *model.Product) (*model.Stock, error)
+	// UpdateStock akan melakukan update stock terbaru
+	UpdateStock(stockId, qty int) error
+}
+
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya
 type TxRepositoryInterface interface {
 	TxEnd(txFunc func() error) error
