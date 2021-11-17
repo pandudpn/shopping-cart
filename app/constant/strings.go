@@ -15,4 +15,5 @@ const (
 	MEDIAFILE       = "media_file"
 	CART            = "cart"
 	CART_PRODUCT    = "cart_product"
+	STOCK           = "stock"
 )
