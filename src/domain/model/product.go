@@ -20,6 +20,7 @@ type Product struct {
 	// dan jangan lupa di inject pada setiap query
 	Category *ProductCategory
 	Images   []*ProductImage
+	Stock    *Stock
 }
 
 func NewProduct() *Product {
@@ -61,4 +62,16 @@ func (p *Product) RemoveImage(image *ProductImage) {
 
 func (p *Product) GetImages() []*ProductImage {
 	return p.Images
+}
+
+func (p *Product) GetQuantity() int {
+	return p.Qty - p.GetStock().QuantityHold
+}
+
+func (p *Product) SetStock(stock *Stock) {
+	p.Stock = stock
+}
+
+func (p *Product) GetStock() *Stock {
+	return p.Stock
 }
