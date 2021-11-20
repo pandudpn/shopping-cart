@@ -10,6 +10,7 @@ import (
 type RouteHandler struct {
 	User    controller.UserControllerInterface
 	Product controller.ProductControllerInterface
+	Cart    controller.CartControllerInterface
 	Cached  middleware.CachedMiddlewareInterface
 }
 
@@ -30,6 +31,10 @@ func (rh *RouteHandler) Route() *echo.Echo {
 	product := e.Group("/product")
 	product.GET("", rh.Product.GetProductsHandler)
 	product.GET("/:id", rh.Product.DetailProductHandler)
+
+	cart := e.Group("/cart", echo.WrapMiddleware(rh.Cached.CheckSession))
+	cartProduct := cart.Group("/product")
+	cartProduct.POST("/add", rh.Cart.AddToCartHandler)
 
 	return e
 }

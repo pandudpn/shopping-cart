@@ -15,11 +15,12 @@ func rowsToCartProduct(rows *sql.Rows) (*model.CartProduct, error) {
 	cartProduct := &model.CartProduct{}
 	product := &model.Product{}
 	category := &model.ProductCategory{}
+	stock := &model.Stock{}
 
 	err := rows.Scan(
 		&cartProduct.Id, &cartProduct.CartId, &cartProduct.ProductId, &cartProduct.Quantity,
 		&cartProduct.BasePrice, &cartProduct.TotalPrice, &product.Id, &product.Name,
-		&product.Slug, &category.Id, &category.Name, &category.Slug,
+		&product.Slug, &category.Id, &category.Name, &category.Slug, &stock.Id, &stock.QuantityHold,
 	)
 
 	if err != nil {
@@ -27,6 +28,7 @@ func rowsToCartProduct(rows *sql.Rows) (*model.CartProduct, error) {
 	}
 
 	product.SetCategory(category)
+	product.SetStock(stock)
 	cartProduct.SetProduct(product)
 
 	return cartProduct, nil

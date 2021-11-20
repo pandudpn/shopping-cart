@@ -59,6 +59,8 @@ type CartRepositoryInterface interface {
 	FindActiveCartByUserId(userId int) (*model.Cart, error)
 	// FindCartByKey digunakan untuk mengambil data cart untuk melakukan checkout data
 	FindCartByKey(key string) (*model.Cart, error)
+	// InsertNewCart untuk membuat keranjang belanja baru jika tidak ada yg sedang aktif
+	InsertNewCart(cart *model.Cart) error
 }
 
 // CartProductRepositoryInterface adalah kumpulan query-query pada table 'cart_product'
@@ -66,6 +68,9 @@ type CartProductRepositoryInterface interface {
 	// FindCartProductsByCartId akan mengambil data 'cart_products' berdasarkan cart_id nya
 	// dan akan langsung di inject ke cart secara langsung
 	FindCartProductsByCartId(cart *model.Cart) error
+	// InsertNewCartProduct menambahkan baris baru pada 'cart_products' dan mengembalikan
+	// id yg baru saja dibuat
+	InsertNewCartProduct(cartProduct *model.CartProduct) error
 }
 
 // StockRepositoryInterface adalah kumpulan query-query untuk mengambil data stock

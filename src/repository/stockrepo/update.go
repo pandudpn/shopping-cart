@@ -7,6 +7,7 @@ func (sr *StockRepository) UpdateStock(stockId, qty int) error {
 	if err != nil {
 		return err
 	}
+	defer stmt.Close()
 
 	res, err := stmt.Exec(qty, stockId)
 	if err != nil {

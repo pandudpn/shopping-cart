@@ -14,6 +14,7 @@ import (
 var ucFbMap = map[string]useCaseFbInterface{
 	constant.USER:    &userUseCaseFactory{},
 	constant.PRODUCT: &productUseCaseFactory{},
+	constant.CART:    &cartUseCaseFactory{},
 }
 
 type UseCaseFactoryInterface interface{}

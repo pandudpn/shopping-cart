@@ -15,9 +15,10 @@ type cartManager struct {
 	cartProductRepo repository.CartProductRepositoryInterface
 }
 
-func NewCartManager(cart repository.CartRepositoryInterface) CartManagerInterface {
+func NewCartManager(cart repository.CartRepositoryInterface, cartProduct repository.CartProductRepositoryInterface) CartManagerInterface {
 	return &cartManager{
-		cartRepo: cart,
+		cartRepo:        cart,
+		cartProductRepo: cartProduct,
 	}
 }
 
@@ -32,27 +33,35 @@ func (cm *cartManager) GetActiveCart(key string, userId int) (*model.Cart, error
 				err = errors.New("query.find.error")
 				return nil, err
 			}
-
-			return activeCart, nil
+		} else {
+			activeCart = cart
 		}
-
-		activeCart = cart
 	} else {
 		cart, err := cm.cartRepo.FindCartByKey(key)
 		if err != nil {
-			logger.Log.Errorf("error query %v", err)
-			err = errors.New("query.find.error")
-			return nil, err
-		}
+			if !errors.Is(err, sql.ErrNoRows) {
+				logger.Log.Errorf("error query %v", err)
+				err = errors.New("query.find.error")
+				return nil, err
+			}
+		} else {
+			if cart.UserId != userId {
+				err = errors.New("cart.not_yours")
+				return nil, err
+			}
 
-		if cart.UserId != userId {
-			err = errors.New("cart.not_yours")
-			return nil, err
+			activeCart = cart
 		}
-
-		activeCart = cart
 	}
 
+	// cek apakah cart baru atau cart existing
+	logger.Log.Debug(activeCart.Id)
+	if activeCart.Id == 0 {
+		activeCart.UserId = userId
+		return activeCart, nil
+	}
+
+	logger.Log.Debugf("active cart %v", activeCart)
 	// query for get all relation cart will be here
 	err := cm.cartProductRepo.FindCartProductsByCartId(activeCart)
 	if err != nil {
