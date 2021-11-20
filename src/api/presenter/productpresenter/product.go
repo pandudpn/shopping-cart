@@ -117,7 +117,7 @@ func productView(product *model.Product) *productsView {
 		Description:     *product.Description,
 		Price:           int(product.Price),
 		DiscountedPrice: int(product.DiscountedPrice),
-		Qty:             product.Qty,
+		Qty:             product.GetQuantity(),
 		CreatedAt:       product.CreatedAt.Format(layoutTime),
 	}
 

@@ -33,3 +33,11 @@ type ProductUseCaseInterface interface {
 	// DetailProductBySlug mengembalikan satu data produk berdasarkan slug
 	DetailProductBySlug(slug string) utils.ResponseInterface
 }
+
+// CartUseCaseInterface adalah usecase untuk user menambahkan sebuah produk atau mengambil data-data produk
+// yang ada pada keranjang mereka.
+// usecase ini support untuk *sql.Tx
+type CartUseCaseInterface interface {
+	// AddToCart adalah sebuah method untuk user melakukan penambahan sebuah produk ke keranjang user tersebut
+	AddToCart(ctx context.Context, req *model.RequestAddToCart) utils.ResponseInterface
+}

@@ -52,6 +52,43 @@ type ProductImageRepositoryInterface interface {
 
 type ProductCategoryRepositoryInterface interface{}
 
+// CartRepositoryInterface adalah kumpulan query-query untuk mengambil/menambahkan/mengubah data cart
+type CartRepositoryInterface interface {
+	// FindActiveCartByUserId mengembalikan cart yg masih aktif pada user tersebut
+	// (cart teerakhir yg aktif)
+	FindActiveCartByUserId(userId int) (*model.Cart, error)
+	// FindCartByKey digunakan untuk mengambil data cart untuk melakukan checkout data
+	FindCartByKey(key string) (*model.Cart, error)
+	// InsertNewCart untuk membuat keranjang belanja baru jika tidak ada yg sedang aktif
+	InsertNewCart(cart *model.Cart) error
+}
+
+// CartProductRepositoryInterface adalah kumpulan query-query pada table 'cart_product'
+type CartProductRepositoryInterface interface {
+	// FindCartProductsByCartId akan mengambil data 'cart_products' berdasarkan cart_id nya
+	// dan akan langsung di inject ke cart secara langsung
+	FindCartProductsByCartId(cart *model.Cart) error
+	// FindCartProductByCartIdAndProductId digunakan untuk pengecekan, apakah
+	// produk id dan juga cart id tersebut sudah ada atau belum
+	// jika belum ada, maka akan menjalankan method `InsertNewCartProduct`
+	// jika sudah ada, maka akan menjalankan method `UpdateCartProduct`
+	FindCartProductByCartIdAndProductId(cartId, productId int) (*model.CartProduct, error)
+	// InsertNewCartProduct menambahkan baris baru pada 'cart_products' dan mengembalikan
+	// id yg baru saja dibuat
+	InsertNewCartProduct(cartProduct *model.CartProduct) error
+	// UpdateCartProduct digunakan untuk merubah data-data seperti qty, dan total_price
+	// berdasarkan id dari cart_product itu sendiri
+	UpdateCartProduct(cartProduct *model.CartProduct) error
+}
+
+// StockRepositoryInterface adalah kumpulan query-query untuk mengambil data stock
+type StockRepositoryInterface interface {
+	// FindStockByProductId akan mengambil satu data stock berdasarkan product_id
+	FindStockByProductId(product *model.Product) (*model.Stock, error)
+	// UpdateStock akan melakukan update stock terbaru
+	UpdateStock(stockId, qty int) error
+}
+
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya
 type TxRepositoryInterface interface {
 	TxEnd(txFunc func() error) error

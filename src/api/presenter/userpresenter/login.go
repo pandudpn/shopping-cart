@@ -65,6 +65,7 @@ var (
 		queryError:           http.StatusInternalServerError,
 		insertError:          http.StatusInternalServerError,
 		errCreateSession:     http.StatusInternalServerError,
+		bodyPayload:          http.StatusBadRequest,
 	}
 )
 

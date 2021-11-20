@@ -12,6 +12,7 @@ func (ur *UserRepository) InsertUser(user *model.User) error {
 	if err != nil {
 		return err
 	}
+	defer stmt.Close()
 
 	err = stmt.QueryRow(user.Name, user.Email, user.Password, user.Phone, user.Enabled, user.EmailVerifiedAt, user.CreatedAt).Scan(&user.Id)
 	if err != nil {

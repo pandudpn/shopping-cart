@@ -1,15 +1,19 @@
 package constant
 
 const (
-	PSQL            = "psql"
-	REDIS           = "redis"
+	PSQL  = "psql"
+	REDIS = "redis"
+
+	TX       = "tx"
+	ENABLETX = true
+
+	// Table database
 	USER            = "user"
 	PRODUCT         = "product"
 	PRODUCTCATEGORY = "product_category"
 	PRODUCTIMAGE    = "product_image"
 	MEDIAFILE       = "media_file"
-	TX              = "tx"
-	ENABLETX        = true
-
-	CACHED = "cached"
+	CART            = "cart"
+	CART_PRODUCT    = "cart_product"
+	STOCK           = "stock"
 )
