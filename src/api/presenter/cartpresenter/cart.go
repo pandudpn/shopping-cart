@@ -62,10 +62,12 @@ var (
 	bodyPayload = "body.payload"
 	queryFind   = "query.find.error"
 	queryInsert = "query.insert.error"
+	queryUpdate = "query.update.failed"
 
 	message = map[string]string{
 		queryFind:       errGlobal,
 		queryInsert:     errGlobal,
+		queryUpdate:     errGlobal,
 		cartActive:      errGlobal,
 		productNotFound: "Produk tidak ditemukan",
 		productQuantity: "Stok produk tidak mencukupi",
@@ -83,6 +85,7 @@ var (
 		bodyPayload:      "80",
 		queryFind:        "81",
 		queryInsert:      "82",
+		queryUpdate:      "83",
 	}
 
 	statusCode = map[string]int{
@@ -93,6 +96,7 @@ var (
 		getCartFailed:    http.StatusBadRequest,
 		queryFind:        http.StatusInternalServerError,
 		queryInsert:      http.StatusInternalServerError,
+		queryUpdate:      http.StatusInternalServerError,
 		bodyPayload:      http.StatusBadRequest,
 		cartActive:       http.StatusInternalServerError,
 	}

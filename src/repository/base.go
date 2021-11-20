@@ -68,9 +68,17 @@ type CartProductRepositoryInterface interface {
 	// FindCartProductsByCartId akan mengambil data 'cart_products' berdasarkan cart_id nya
 	// dan akan langsung di inject ke cart secara langsung
 	FindCartProductsByCartId(cart *model.Cart) error
+	// FindCartProductByCartIdAndProductId digunakan untuk pengecekan, apakah
+	// produk id dan juga cart id tersebut sudah ada atau belum
+	// jika belum ada, maka akan menjalankan method `InsertNewCartProduct`
+	// jika sudah ada, maka akan menjalankan method `UpdateCartProduct`
+	FindCartProductByCartIdAndProductId(cartId, productId int) (*model.CartProduct, error)
 	// InsertNewCartProduct menambahkan baris baru pada 'cart_products' dan mengembalikan
 	// id yg baru saja dibuat
 	InsertNewCartProduct(cartProduct *model.CartProduct) error
+	// UpdateCartProduct digunakan untuk merubah data-data seperti qty, dan total_price
+	// berdasarkan id dari cart_product itu sendiri
+	UpdateCartProduct(cartProduct *model.CartProduct) error
 }
 
 // StockRepositoryInterface adalah kumpulan query-query untuk mengambil data stock

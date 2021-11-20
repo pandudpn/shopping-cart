@@ -20,7 +20,32 @@ func rowsToCartProduct(rows *sql.Rows) (*model.CartProduct, error) {
 	err := rows.Scan(
 		&cartProduct.Id, &cartProduct.CartId, &cartProduct.ProductId, &cartProduct.Quantity,
 		&cartProduct.BasePrice, &cartProduct.TotalPrice, &product.Id, &product.Name,
-		&product.Slug, &category.Id, &category.Name, &category.Slug, &stock.Id, &stock.QuantityHold,
+		&product.Slug, &category.Id, &category.Name, &product.Price, &product.DiscountedPrice,
+		&product.Qty, &category.Slug, &stock.Id, &stock.QuantityHold,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	product.SetCategory(category)
+	product.SetStock(stock)
+	cartProduct.SetProduct(product)
+
+	return cartProduct, nil
+}
+
+func rowToCartProduct(row *sql.Row) (*model.CartProduct, error) {
+	cartProduct := &model.CartProduct{}
+	product := &model.Product{}
+	category := &model.ProductCategory{}
+	stock := &model.Stock{}
+
+	err := row.Scan(
+		&cartProduct.Id, &cartProduct.CartId, &cartProduct.ProductId, &cartProduct.Quantity,
+		&cartProduct.BasePrice, &cartProduct.TotalPrice, &product.Id, &product.Name,
+		&product.Slug, &category.Id, &category.Name, &product.Price, &product.DiscountedPrice,
+		&product.Qty, &category.Slug, &stock.Id, &stock.QuantityHold,
 	)
 
 	if err != nil {
