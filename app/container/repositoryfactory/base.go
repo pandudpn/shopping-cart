@@ -19,6 +19,9 @@ var rFbMap = map[string]repositoryFbInterface{
 	constant.CART:            &cartRepositoryFactory{},
 	constant.CART_PRODUCT:    &cartProductRepositoryFactory{},
 	constant.STOCK:           &stockRepositoryFactory{},
+	constant.COURIER:         &courierRepositoryFactory{},
+	constant.PAYMENTMETHOD:   &paymentMethodRepositoryFactory{},
+	constant.USERADDRESS:     &userAddressRepositoryFactory{},
 }
 
 type RepositoryFactoryInterface interface{}
