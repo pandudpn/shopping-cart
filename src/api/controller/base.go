@@ -23,4 +23,5 @@ type ProductControllerInterface interface {
 // CartControllerInterface adalah kumpulan controller/handler yg berkaitan dengan keranjang belanja
 type CartControllerInterface interface {
 	AddToCartHandler(e echo.Context) error
+	GetCartHandler(e echo.Context) error
 }

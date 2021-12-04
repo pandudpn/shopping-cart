@@ -40,4 +40,6 @@ type ProductUseCaseInterface interface {
 type CartUseCaseInterface interface {
 	// AddToCart adalah sebuah method untuk user melakukan penambahan sebuah produk ke keranjang user tersebut
 	AddToCart(ctx context.Context, req *model.RequestAddToCart) utils.ResponseInterface
+	// GetCart adalah sebuah method untuk user menampilkan produk-produk yg telah dimasukkan kedalam ke keranjang belanja
+	GetCart(ctx context.Context, userId int, key string) utils.ResponseInterface
 }
