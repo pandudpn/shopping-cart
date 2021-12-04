@@ -21,6 +21,7 @@ type UserAddress struct {
 	UpdatedAt    *time.Time
 	Deleted      bool
 
+	User     *User
 	Province *Region
 	City     *Region
 	District *Region
@@ -57,4 +58,12 @@ func (ua *UserAddress) SetArea(area *Region) {
 
 func (ua *UserAddress) GetArea() *Region {
 	return ua.Area
+}
+
+func (ua *UserAddress) SetUser(user *User) {
+	ua.User = user
+}
+
+func (ua *UserAddress) GetUser() *User {
+	return ua.User
 }

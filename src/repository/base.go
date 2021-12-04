@@ -15,6 +15,17 @@ type UserRepositoryInterface interface {
 	InsertUser(user *model.User) error
 }
 
+type UserAddressRepositoryInterface interface {
+	// FindAllByUser digunakan untuk mengambil seluruh list user_addresss berdasarkan
+	// user.id
+	FindAllByUser(user *model.User) ([]*model.UserAddress, error)
+	// FindDefaultDeliveryByUser akan mendapatkan satu data delivery address
+	// yg sudah menjadi default
+	// method ini nantinya digunakan untuk membuat default cart.address_id ketika
+	// pertama kali melakukan checkout
+	FindDefaultDeliveryByUser(user *model.User) (*model.UserAddress, error)
+}
+
 // RedisRepositoryInterface digunakan untuk kumpulan query-query yang langsung ke redis db
 type RedisRepositoryInterface interface {
 	// SetSession digunakan ketika user ingin melakukan login
