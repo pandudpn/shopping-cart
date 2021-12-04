@@ -21,7 +21,7 @@ func rowsToCartProduct(rows *sql.Rows) (*model.CartProduct, error) {
 		&cartProduct.Id, &cartProduct.CartId, &cartProduct.ProductId, &cartProduct.Quantity,
 		&cartProduct.BasePrice, &cartProduct.TotalPrice, &product.Id, &product.Name,
 		&product.Slug, &category.Id, &category.Name, &product.Price, &product.DiscountedPrice,
-		&product.Qty, &category.Slug, &stock.Id, &stock.QuantityHold,
+		&product.Qty, &category.Slug, &stock.Id, &stock.QuantityHold, &product.Weight,
 	)
 
 	if err != nil {
@@ -45,7 +45,7 @@ func rowToCartProduct(row *sql.Row) (*model.CartProduct, error) {
 		&cartProduct.Id, &cartProduct.CartId, &cartProduct.ProductId, &cartProduct.Quantity,
 		&cartProduct.BasePrice, &cartProduct.TotalPrice, &product.Id, &product.Name,
 		&product.Slug, &category.Id, &category.Name, &product.Price, &product.DiscountedPrice,
-		&product.Qty, &category.Slug, &stock.Id, &stock.QuantityHold,
+		&product.Qty, &category.Slug, &stock.Id, &stock.QuantityHold, &product.Weight,
 	)
 
 	if err != nil {

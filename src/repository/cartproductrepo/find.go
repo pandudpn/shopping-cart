@@ -5,7 +5,7 @@ import "github.com/pandudpn/shopping-cart/src/domain/model"
 const (
 	QUERY_SELECT = "select cp.id, cp.cart_id, cp.product_id, cp.quantity, cp.base_price, " +
 		"cp.total_price, p.id, p.name, p.slug, pc.id, pc.name, p.price, p.discounted_price, " +
-		"p.qty, pc.slug, s.id, coalesce(s.quantity_hold, 0) " +
+		"p.qty, pc.slug, s.id, coalesce(s.quantity_hold, 0), p.weight " +
 		"from cart_product cp " +
 		"inner join cart c on cp.cart_id = c.id " +
 		"inner join product p on cp.product_id = p.id " +
