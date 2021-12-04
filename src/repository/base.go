@@ -15,6 +15,18 @@ type UserRepositoryInterface interface {
 	InsertUser(user *model.User) error
 }
 
+// UserAddressRepositoryInterface adalah kumpulan query-query untuk table 'user_address'
+type UserAddressRepositoryInterface interface {
+	// FindAllByUser digunakan untuk mengambil seluruh list user_addresss berdasarkan
+	// user.id
+	FindAllByUser(user *model.User) ([]*model.UserAddress, error)
+	// FindDefaultDeliveryByUser akan mendapatkan satu data delivery address
+	// yg sudah menjadi default
+	// method ini nantinya digunakan untuk membuat default cart.address_id ketika
+	// pertama kali melakukan checkout
+	FindDefaultDeliveryByUser(user *model.User) (*model.UserAddress, error)
+}
+
 // RedisRepositoryInterface digunakan untuk kumpulan query-query yang langsung ke redis db
 type RedisRepositoryInterface interface {
 	// SetSession digunakan ketika user ingin melakukan login
@@ -87,6 +99,23 @@ type StockRepositoryInterface interface {
 	FindStockByProductId(product *model.Product) (*model.Stock, error)
 	// UpdateStock akan melakukan update stock terbaru
 	UpdateStock(stockId, qty int) error
+}
+
+// PaymentMethodRepositoryInterface adalah kumpulan query-query pada table 'payment_method'
+type PaymentMethodRepositoryInterface interface {
+	// FindEnabledPaymentMethod akan mengembalikan seluruh data metode pembayaran yang aktif
+	FindEnabledPaymentMethod() ([]*model.PaymentMethod, error)
+	// FindPaymentMethodById digunakan untuk mengambil satu data berdasarkan payment_method.id
+	FindPaymentMethodById(paymentMethodId int) (*model.PaymentMethod, error)
+}
+
+// CourierRepositoryInterface adalah kumpulan query-query pada table 'courier'
+type CourierRepositoryInterface interface {
+	// FindenabledCourier untuk mendapatkan seluruh kurir yg aktif
+	FindEnabledCourier() ([]*model.Courier, error)
+	// FindCourierById digunakan untuk mendapatkan single data kurir
+	// berdasarkan courier.id
+	FindCourierById(courierId int) (*model.Courier, error)
 }
 
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya

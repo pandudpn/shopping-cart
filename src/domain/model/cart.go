@@ -19,8 +19,18 @@ type Cart struct {
 	UpdatedAt       *time.Time
 
 	// Relation table will be here
-	Products []*CartProduct
-	User     *User
+	Products      []*CartProduct
+	User          *User
+	UserAddress   *UserAddress
+	Courier       *Courier
+	PaymentMethod *PaymentMethod
+
+	// temporary data for cart and checkout
+	Total                float64
+	TotalProductsPrice   float64
+	TotalDeliveryCost    float64
+	DeliveryCost         float64
+	DeliveryCostDiscount float64
 }
 
 func NewCart() *Cart {
@@ -62,4 +72,28 @@ func (c *Cart) SetUser(user *User) {
 
 func (c *Cart) GetUser() *User {
 	return c.User
+}
+
+func (c *Cart) SetUserAddress(userAddress *UserAddress) {
+	c.UserAddress = userAddress
+}
+
+func (c *Cart) GetUserAddress() *UserAddress {
+	return c.UserAddress
+}
+
+func (c *Cart) SetCourier(courier *Courier) {
+	c.Courier = courier
+}
+
+func (c *Cart) GetCourier() *Courier {
+	return c.Courier
+}
+
+func (c *Cart) SetPaymentMethod(paymentMethod *PaymentMethod) {
+	c.PaymentMethod = paymentMethod
+}
+
+func (c *Cart) GetPaymentMethod() *PaymentMethod {
+	return c.PaymentMethod
 }

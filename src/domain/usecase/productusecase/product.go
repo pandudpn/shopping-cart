@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math"
 	"reflect"
+	"sync"
 
 	"github.com/pandudpn/shopping-cart/src/api/presenter/productpresenter"
 	"github.com/pandudpn/shopping-cart/src/domain/model"
@@ -36,16 +37,6 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 			return productpresenter.ResponseProducts(nil, err, nil)
 		}
 
-		for _, product := range p {
-			images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
-			if err != nil {
-				logger.Log.Error(err)
-				continue
-			}
-
-			product.SetImages(images)
-		}
-
 		products = p
 	} else {
 		p, err := puu.ProductRepo.FindProductsByName(search)
@@ -53,16 +44,6 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 			logger.Log.Errorf("error get products by search %v", err)
 			err = errors.New("query.find.error")
 			return productpresenter.ResponseProducts(nil, err, nil)
-		}
-
-		for _, product := range p {
-			images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
-			if err != nil {
-				logger.Log.Error(err)
-				continue
-			}
-
-			product.SetImages(images)
 		}
 
 		products = p
@@ -85,8 +66,26 @@ func (puu *ProductUseCase) GetAllProducts(limit, page int, search string) utils.
 
 	products = products[offset:limit]
 
+	wg := sync.WaitGroup{}
+
+	for _, product := range products {
+		wg.Add(1)
+		go func(product *model.Product) {
+			defer wg.Done()
+
+			images, err := puu.ImageRepo.FindImagesByProductId(product.Id)
+			if err != nil {
+				logger.Log.Error(err)
+				return
+			}
+
+			product.SetImages(images)
+		}(product)
+	}
+
 	res["searchProduct"] = search
 	res["products"] = products
+	wg.Wait()
 
 	return productpresenter.ResponseProducts(res, nil, puu.Redis)
 }

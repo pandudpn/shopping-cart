@@ -16,10 +16,10 @@ Adapun fitur-fitur yang tersedia pada project ini :
 	- [x] List Product
 	- [x] Product Detail
 * Cart
-	- [ ] Add to cart
-	- [ ] Add quantity product
+	- [x] Add to cart
+	- [x] Add quantity product
 	- [ ] Remove Product
-	- [ ] Decrease quantity product
+	- [x] Decrease quantity product
 	- [ ] Show Cart
 * Checkout
 	- [ ] List available Courrier
