@@ -13,7 +13,6 @@ type psqlFactory struct{}
 func (pf *psqlFactory) Build(c container.Container, enableTx bool) (DataStoreInterface, error) {
 	if !enableTx {
 		if value, found := c.Get(constant.PSQL); found {
-			logger.Log.Debug("psql.DB found in container")
 			return value, nil
 		}
 	}
