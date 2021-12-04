@@ -109,6 +109,15 @@ type PaymentMethodRepositoryInterface interface {
 	FindPaymentMethodById(paymentMethodId int) (*model.PaymentMethod, error)
 }
 
+// CourierRepositoryInterface adalah kumpulan query-query pada table 'courier'
+type CourierRepositoryInterface interface {
+	// FindenabledCourier untuk mendapatkan seluruh kurir yg aktif
+	FindEnabledCourier() ([]*model.Courier, error)
+	// FindCourierById digunakan untuk mendapatkan single data kurir
+	// berdasarkan courier.id
+	FindCourierById(courierId int) (*model.Courier, error)
+}
+
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya
 type TxRepositoryInterface interface {
 	TxEnd(txFunc func() error) error
