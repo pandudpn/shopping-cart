@@ -33,14 +33,6 @@ func (cpr *CartProductRepository) FindCartProductsByCartId(cart *model.Cart) err
 			return err
 		}
 
-		// query for get product image
-		row := cpr.DB.QueryRow(QUERY_SELECT_IMAGE, cartProduct.ProductId)
-		productImage, err := rowToImage(row)
-		if err != nil {
-			return err
-		}
-
-		cartProduct.GetProduct().AddImage(productImage)
 		cart.AddProduct(cartProduct)
 	}
 

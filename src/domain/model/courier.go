@@ -5,6 +5,8 @@ import "time"
 const (
 	sameday = "same_day"
 	instant = "instant"
+	regular = "regular"
+	nextday = "next_day"
 )
 
 type Courier struct {
@@ -17,6 +19,15 @@ type Courier struct {
 	CreatedAt time.Time
 	UpdatedAt *time.Time
 	Deleted   bool
+
+	// temp variable
+	Rate                  int
+	MinDay                int
+	MaxDay                int
+	DeliveryCost          float64 // base price dari delivery cost courier
+	DeliveryCostDiscount  float64
+	DeliveryInsuranceCost float64
+	TotalDeliveryCost     float64 // total delivery adalah penjumlahan ataupun pengurangan dari (delivery_cost + delivery_insurance_cost - delivery_cost_discount)
 }
 
 func NewCourier() *Courier {
@@ -48,4 +59,17 @@ func (c *Courier) IsInstant() bool {
 
 func (c *Courier) CanPickSameDayOrInstant(userAddress *UserAddress) bool {
 	return userAddress.Lat != nil && userAddress.Long != nil
+}
+
+func (c *Courier) GetCategory() string {
+	switch c.Category {
+	case instant:
+		return "Instant"
+	case sameday:
+		return "Same Day"
+	case nextday:
+		return "Next Day"
+	default:
+		return "Regular"
+	}
 }

@@ -19,7 +19,9 @@ const (
 		"inner join region d on ua.district_id = d.id " +
 		"inner join region a on ua.area_id = a.id " +
 		"where ua.deleted = false "
-	QUERY_BY_USER = QUERY_SELECT_ENABLED + "and ua.user_id = $1"
+	QUERY_BY_ID               = QUERY_SELECT_ENABLED + "and id=$1"
+	QUERY_BY_USER             = QUERY_SELECT_ENABLED + "and ua.user_id = $1"
+	QUERY_BY_DELIVERY_DEFAULT = QUERY_BY_USER + " and default = true and type = 'delivery'"
 )
 
 type UserAddressRepository struct {

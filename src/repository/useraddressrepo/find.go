@@ -3,7 +3,7 @@ package useraddressrepo
 import "github.com/pandudpn/shopping-cart/src/domain/model"
 
 func (uar *UserAddressRepository) FindDefaultDeliveryByUser(user *model.User) (*model.UserAddress, error) {
-	row := uar.DB.QueryRow(QUERY_BY_USER, user.Id)
+	row := uar.DB.QueryRow(QUERY_BY_DELIVERY_DEFAULT, user.Id)
 
 	userAddress, err := rowToUserAddress(row)
 	if err != nil {
@@ -38,4 +38,11 @@ func (uar *UserAddressRepository) FindAllByUser(user *model.User) ([]*model.User
 	}
 
 	return userAddresses, nil
+}
+
+func (uar *UserAddressRepository) FindUserAddressById(id int) (*model.UserAddress, error) {
+	row := uar.DB.QueryRow(QUERY_BY_ID, id)
+
+	userAddress, err := rowToUserAddress(row)
+	return userAddress, err
 }

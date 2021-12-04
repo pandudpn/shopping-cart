@@ -1,8 +1,6 @@
 package calculator
 
 import (
-	"context"
-
 	"github.com/pandudpn/shopping-cart/src/domain/model"
 	"github.com/pandudpn/shopping-cart/src/repository"
 )
@@ -17,6 +15,8 @@ func NewCartCalculator(cr repository.CartRepositoryInterface) CartCalculatorInte
 	}
 }
 
-func (cc *cartCalcualtor) Calculate(ctx context.Context, cart *model.Cart) error {
-	return nil
+func (cc *cartCalcualtor) Calculate(cart *model.Cart) {
+	total := cart.TotalProductsPrice + cart.TotalDeliveryCost
+
+	cart.Total = total
 }

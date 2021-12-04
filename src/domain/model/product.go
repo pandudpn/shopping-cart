@@ -11,6 +11,7 @@ type Product struct {
 	Price           float64
 	DiscountedPrice float64
 	Qty             int
+	Weight          float64
 	Enabled         bool
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
