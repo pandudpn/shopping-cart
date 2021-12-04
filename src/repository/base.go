@@ -15,6 +15,7 @@ type UserRepositoryInterface interface {
 	InsertUser(user *model.User) error
 }
 
+// UserAddressRepositoryInterface adalah kumpulan query-query untuk table 'user_address'
 type UserAddressRepositoryInterface interface {
 	// FindAllByUser digunakan untuk mengambil seluruh list user_addresss berdasarkan
 	// user.id
@@ -98,6 +99,14 @@ type StockRepositoryInterface interface {
 	FindStockByProductId(product *model.Product) (*model.Stock, error)
 	// UpdateStock akan melakukan update stock terbaru
 	UpdateStock(stockId, qty int) error
+}
+
+// PaymentMethodRepositoryInterface adalah kumpulan query-query pada table 'payment_method'
+type PaymentMethodRepositoryInterface interface {
+	// FindEnabledPaymentMethod akan mengembalikan seluruh data metode pembayaran yang aktif
+	FindEnabledPaymentMethod() ([]*model.PaymentMethod, error)
+	// FindPaymentMethodById digunakan untuk mengambil satu data berdasarkan payment_method.id
+	FindPaymentMethodById(paymentMethodId int) (*model.PaymentMethod, error)
 }
 
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya
