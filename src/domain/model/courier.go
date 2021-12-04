@@ -2,6 +2,11 @@ package model
 
 import "time"
 
+const (
+	sameday = "same_day"
+	instant = "instant"
+)
+
 type Courier struct {
 	Id        int
 	Code      string
@@ -31,4 +36,16 @@ func (c *Courier) GetImage() string {
 		return ""
 	}
 	return *c.Image
+}
+
+func (c *Courier) IsSameDay() bool {
+	return c.Category == sameday
+}
+
+func (c *Courier) IsInstant() bool {
+	return c.Category == instant
+}
+
+func (c *Courier) CanPickSameDayOrInstant(userAddress *UserAddress) bool {
+	return userAddress.Lat != nil && userAddress.Long != nil
 }
