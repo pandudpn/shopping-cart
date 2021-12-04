@@ -21,6 +21,13 @@ type Cart struct {
 	// Relation table will be here
 	Products []*CartProduct
 	User     *User
+
+	// temporary data for cart and checkout
+	Total                float64
+	TotalProductsPrice   float64
+	TotalDeliveryCost    float64
+	DeliveryCost         float64
+	DeliveryCostDiscount float64
 }
 
 func NewCart() *Cart {
