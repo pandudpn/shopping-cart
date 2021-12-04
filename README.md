@@ -20,7 +20,7 @@ Adapun fitur-fitur yang tersedia pada project ini :
 	- [x] Add quantity product
 	- [ ] Remove Product
 	- [x] Decrease quantity product
-	- [ ] Show Cart
+	- [x] Show Cart
 * Checkout
 	- [ ] List available Courrier
 	- [ ] List Available Payment Method
