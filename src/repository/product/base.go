@@ -16,7 +16,7 @@ func rowsToProduct(rows *sql.Rows) (*model.Product, error) {
 	category := &model.ProductCategory{}
 	stock := &model.Stock{}
 
-	err := rows.Scan(&product.Id, &product.Name, &product.Slug, &product.Description, &product.Price, &product.DiscountedPrice, &product.Qty, &product.Enabled, &product.CreatedAt, &category.Id, &category.Name, &category.Slug, &stock.Id, &stock.QuantityHold)
+	err := rows.Scan(&product.Id, &product.Name, &product.Slug, &product.Description, &product.Price, &product.DiscountedPrice, &product.Qty, &product.Enabled, &product.CreatedAt, &category.Id, &category.Name, &category.Slug, &stock.Id, &stock.QuantityHold, &product.Weight)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func rowToProduct(row *sql.Row) (*model.Product, error) {
 	category := &model.ProductCategory{}
 	stock := &model.Stock{}
 
-	err := row.Scan(&product.Id, &product.Name, &product.Slug, &product.Description, &product.Price, &product.DiscountedPrice, &product.Qty, &product.Enabled, &product.CreatedAt, &category.Id, &category.Name, &category.Slug, &stock.Id, &stock.QuantityHold)
+	err := row.Scan(&product.Id, &product.Name, &product.Slug, &product.Description, &product.Price, &product.DiscountedPrice, &product.Qty, &product.Enabled, &product.CreatedAt, &category.Id, &category.Name, &category.Slug, &stock.Id, &stock.QuantityHold, &product.Weight)
 	if err != nil {
 		return nil, err
 	}

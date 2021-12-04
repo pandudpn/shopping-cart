@@ -1,6 +1,10 @@
 package repository
 
-import "github.com/pandudpn/shopping-cart/src/domain/model"
+import (
+	"net/http"
+
+	"github.com/pandudpn/shopping-cart/src/domain/model"
+)
 
 type UserRepositoryInterface interface {
 	// FindById mencari user berdasarkan id
@@ -25,6 +29,9 @@ type UserAddressRepositoryInterface interface {
 	// method ini nantinya digunakan untuk membuat default cart.address_id ketika
 	// pertama kali melakukan checkout
 	FindDefaultDeliveryByUser(user *model.User) (*model.UserAddress, error)
+	// FindUserAddressById digunakan saat mengambil active_cart_manager
+	// jika field/column 'user_address_id' tidak null
+	FindUserAddressById(id int) (*model.UserAddress, error)
 }
 
 // RedisRepositoryInterface digunakan untuk kumpulan query-query yang langsung ke redis db
@@ -73,6 +80,8 @@ type CartRepositoryInterface interface {
 	FindCartByKey(key string) (*model.Cart, error)
 	// InsertNewCart untuk membuat keranjang belanja baru jika tidak ada yg sedang aktif
 	InsertNewCart(cart *model.Cart) error
+	// UpdateCart digunakan untuk menge-set data cart
+	UpdateCart(cart *model.Cart) error
 }
 
 // CartProductRepositoryInterface adalah kumpulan query-query pada table 'cart_product'
@@ -116,6 +125,9 @@ type CourierRepositoryInterface interface {
 	// FindCourierById digunakan untuk mendapatkan single data kurir
 	// berdasarkan courier.id
 	FindCourierById(courierId int) (*model.Courier, error)
+	// GetCourierShipper sebuah method untuk melakukan request ke 3rd party 'shipper'
+	// dan akan mendapatkan list-list courier yg tersedia
+	GetCourierShipper(client *http.Client, cart *model.Cart) ([]byte, error)
 }
 
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya

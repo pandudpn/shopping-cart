@@ -26,11 +26,13 @@ type Cart struct {
 	PaymentMethod *PaymentMethod
 
 	// temporary data for cart and checkout
-	Total                float64
-	TotalProductsPrice   float64
-	TotalDeliveryCost    float64
-	DeliveryCost         float64
-	DeliveryCostDiscount float64
+	Total                  float64
+	TotalProductsPrice     float64
+	TotalDeliveryCost      float64
+	DeliveryCost           float64
+	DeliveryCostDiscount   float64
+	AvailableCourier       map[string]interface{}
+	AvailablePaymentMethod []*PaymentMethod
 }
 
 func NewCart() *Cart {
@@ -96,4 +98,30 @@ func (c *Cart) SetPaymentMethod(paymentMethod *PaymentMethod) {
 
 func (c *Cart) GetPaymentMethod() *PaymentMethod {
 	return c.PaymentMethod
+}
+
+func (c *Cart) SetAvailableCourier(availableCourier map[string]interface{}) {
+	c.AvailableCourier = availableCourier
+}
+
+func (c *Cart) GetAvailableCourier() map[string]interface{} {
+	return c.AvailableCourier
+}
+
+func (c *Cart) SetAvailablePaymentMethod(availablePaymentMethod []*PaymentMethod) {
+	c.AvailablePaymentMethod = availablePaymentMethod
+}
+
+func (c *Cart) GetAvailablePaymentMethod() []*PaymentMethod {
+	return c.AvailablePaymentMethod
+}
+
+func (c *Cart) GetWeight() float64 {
+	var weight float64
+
+	for _, cartProduct := range c.GetProducts() {
+		weight += cartProduct.GetProduct().Weight
+	}
+
+	return weight
 }
