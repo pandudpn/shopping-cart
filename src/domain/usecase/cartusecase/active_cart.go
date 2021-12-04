@@ -7,7 +7,7 @@ import (
 )
 
 func (cu *CartUseCase) getActiveCart(secretKey string, userId int) (*model.Cart, error) {
-	cartManager := manager.NewCartManager(cu.CartRepo, cu.CartProductRepo)
+	cartManager := manager.NewCartManager(cu.CartRepo, cu.CartProductRepo, cu.ProductImageRepo, cu.UserRepo, cu.UserAddressRepo, cu.CourierRepo, cu.PaymentMethodRepo)
 
 	cart, err := cartManager.GetActiveCart(secretKey, userId)
 	if err != nil {

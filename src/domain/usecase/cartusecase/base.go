@@ -14,8 +14,13 @@ var (
 )
 
 type CartUseCase struct {
-	ProductRepo     repository.ProductRepositoryInterface
-	CartRepo        repository.CartRepositoryInterface
-	CartProductRepo repository.CartProductRepositoryInterface
-	TxRepo          repository.TxRepositoryInterface
+	ProductRepo       repository.ProductRepositoryInterface
+	CartRepo          repository.CartRepositoryInterface
+	CartProductRepo   repository.CartProductRepositoryInterface
+	ProductImageRepo  repository.ProductImageRepositoryInterface
+	UserRepo          repository.UserRepositoryInterface
+	UserAddressRepo   repository.UserAddressRepositoryInterface
+	CourierRepo       repository.CourierRepositoryInterface
+	PaymentMethodRepo repository.PaymentMethodRepositoryInterface
+	TxRepo            repository.TxRepositoryInterface
 }

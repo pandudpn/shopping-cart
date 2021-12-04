@@ -6,18 +6,18 @@ import (
 )
 
 type RequestShipperPricing struct {
-	Cod         bool            `json:"cod"`
-	Limit       int             `json:"limit"`
-	Page        int             `json:"page"`
-	Weight      float64         `json:"weight"`
-	Height      float64         `json:"height"`
-	Length      int             `json:"length"`
-	Width       int             `json:"width"`
-	ItemValue   float64         `json:"item_value"`
-	ForOrder    bool            `json:"for_order"`
-	SortBy      []string        `json:"sort_by"`
-	Destination ShipperLocation `json:"destination"`
-	Origin      ShipperLocation `json:"origin"`
+	Cod         bool                   `json:"cod"`
+	Limit       int                    `json:"limit"`
+	Page        int                    `json:"page"`
+	Weight      float64                `json:"weight"`
+	Height      float64                `json:"height"`
+	Length      int                    `json:"length"`
+	Width       int                    `json:"width"`
+	ItemValue   float64                `json:"item_value"`
+	ForOrder    bool                   `json:"for_order"`
+	SortBy      []string               `json:"sort_by"`
+	Destination ShipperLocationRequest `json:"destination"`
+	Origin      ShipperLocationRequest `json:"origin"`
 }
 
 type ResponseShipperPricing struct {
@@ -26,7 +26,14 @@ type ResponseShipperPricing struct {
 	Pagination ShipperPagination  `json:"pagination"`
 }
 
-type ShipperLocation struct {
+type ShipperLocationRequest struct {
+	AreaId   int    `json:"area_id"`
+	Lat      string `json:"lat"`
+	Lng      string `json:"lng"`
+	SuburbId int    `json:"suburb_id"`
+}
+
+type ShipperLocationResponse struct {
 	AreaId       int     `json:"area_id"`
 	AreaName     string  `json:"area_name,omitempty"`
 	Lat          float64 `json:"lat"`
@@ -40,9 +47,9 @@ type ShipperLocation struct {
 }
 
 type DataShipperPricing struct {
-	Origin      ShipperLocation  `json:"origin"`
-	Destination ShipperLocation  `json:"destination"`
-	Pricings    []ShipperPricing `json:"pricings"`
+	Origin      ShipperLocationResponse `json:"origin"`
+	Destination ShipperLocationResponse `json:"destination"`
+	Pricings    []ShipperPricing        `json:"pricings"`
 }
 
 type ShipperPricing struct {
@@ -109,11 +116,11 @@ func NewRequestShipperPricing() RequestShipperPricing {
 		Width:    10,
 		Length:   10,
 		SortBy:   []string{"final_price"},
-		Origin: ShipperLocation{
+		Origin: ShipperLocationRequest{
 			AreaId:   4756,
 			SuburbId: 489,
-			Lat:      -6.2409898,
-			Lng:      106.763273,
+			Lat:      "-6.2409898",
+			Lng:      "106.763273",
 		},
 	}
 }

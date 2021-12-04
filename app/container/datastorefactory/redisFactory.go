@@ -12,8 +12,6 @@ type redisFactory struct{}
 
 func (rf *redisFactory) Build(c container.Container, enableTx bool) (DataStoreInterface, error) {
 	if value, found := c.Get(constant.REDIS); found {
-		logger.Log.Debug("redis found in container")
-
 		return value, nil
 	}
 

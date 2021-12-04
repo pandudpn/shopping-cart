@@ -14,17 +14,25 @@ import (
 type cartManager struct {
 	cartRepo          repository.CartRepositoryInterface
 	cartProductRepo   repository.CartProductRepositoryInterface
-	ImageRepo         repository.ProductImageRepositoryInterface
+	imageRepo         repository.ProductImageRepositoryInterface
 	userRepo          repository.UserRepositoryInterface
 	userAddressRepo   repository.UserAddressRepositoryInterface
 	courierRepo       repository.CourierRepositoryInterface
 	paymentMethodRepo repository.PaymentMethodRepositoryInterface
 }
 
-func NewCartManager(cart repository.CartRepositoryInterface, cartProduct repository.CartProductRepositoryInterface) CartManagerInterface {
+func NewCartManager(
+	cart repository.CartRepositoryInterface, cartProduct repository.CartProductRepositoryInterface, imageRepo repository.ProductImageRepositoryInterface, userRepo repository.UserRepositoryInterface,
+	userAddressRepo repository.UserAddressRepositoryInterface, courierRepo repository.CourierRepositoryInterface, paymentMethodRepo repository.PaymentMethodRepositoryInterface,
+) CartManagerInterface {
 	return &cartManager{
-		cartRepo:        cart,
-		cartProductRepo: cartProduct,
+		cartRepo:          cart,
+		cartProductRepo:   cartProduct,
+		imageRepo:         imageRepo,
+		userRepo:          userRepo,
+		userAddressRepo:   userAddressRepo,
+		courierRepo:       courierRepo,
+		paymentMethodRepo: paymentMethodRepo,
 	}
 }
 
@@ -80,7 +88,7 @@ func (cm *cartManager) GetActiveCart(key string, userId int) (*model.Cart, error
 
 			go func(cartProduct *model.CartProduct) {
 				defer wg.Done()
-				productImages, err := cm.ImageRepo.FindImagesByProductId(cartProduct.ProductId)
+				productImages, err := cm.imageRepo.FindImagesByProductId(cartProduct.ProductId)
 				if err != nil {
 					logger.Log.Errorf("error get images for product %d", cartProduct.ProductId)
 					return

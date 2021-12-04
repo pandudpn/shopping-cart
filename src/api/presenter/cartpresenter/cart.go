@@ -137,6 +137,7 @@ func createViewCart(cart *model.Cart) *cartView {
 		IsActive:          cart.IsActive,
 		TotalProductPrice: priceProduct,
 		Products:          products,
+		Customer:          createUserView(cart.GetUser()),
 	}
 
 	return res
@@ -160,6 +161,15 @@ func createCartProductView(cart *model.Cart) ([]*cartProductView, float64) {
 	}
 
 	return cartProductsView, totalProductsPrice
+}
+
+func createUserView(user *model.User) *userView {
+	return &userView{
+		Id:          user.Id,
+		Name:        user.Name,
+		Email:       user.Email,
+		PhoneNumber: user.Phone,
+	}
 }
 
 func createProductView(product *model.Product) *productView {

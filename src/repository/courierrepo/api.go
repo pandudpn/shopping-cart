@@ -22,7 +22,8 @@ func (cr *CourierRepository) GetCourierShipper(client *http.Client, cart *model.
 		destLng    = *cart.GetUserAddress().GetArea().Long
 	)
 	header := map[string]string{
-		"X-Api-Key": apiKey,
+		"X-Api-Key":    apiKey,
+		"Content-Type": "application/json",
 	}
 
 	if cart.GetUserAddress().Lat != nil && cart.GetUserAddress().Long != nil {
@@ -32,11 +33,11 @@ func (cr *CourierRepository) GetCourierShipper(client *http.Client, cart *model.
 
 	reqPricing.ItemValue = cart.TotalProductsPrice
 	reqPricing.Weight = cart.GetWeight()
-	reqPricing.Destination = model.ShipperLocation{
-		AreaId:   cart.GetUserAddress().GetArea().Id,
-		SuburbId: cart.GetUserAddress().GetDistrict().Id,
-		Lat:      destLat,
-		Lng:      destLng,
+	reqPricing.Destination = model.ShipperLocationRequest{
+		AreaId:   cart.GetUserAddress().GetArea().RefId,
+		SuburbId: cart.GetUserAddress().GetDistrict().RefId,
+		Lat:      fmt.Sprintf("%f", destLat),
+		Lng:      fmt.Sprintf("%f", destLng),
 	}
 
 	payload, err := json.Marshal(reqPricing)

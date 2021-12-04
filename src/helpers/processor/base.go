@@ -30,6 +30,9 @@ type ProcessorInterface interface {
 	// pada method ini juga bisa digunakan untuk mengambil data courier yang sudah dipilih
 	// lalu akan di convert pada presenter nantinya
 	GetAvailableCourier(cart *model.Cart) error
+	// Cart method untuk memproses seluruh data dari availableCourier, availablePaymentMethod, dan juga calculator
+	// dari cart itu sendiri. method ini akan digunakan ketika user melakukan checkout
+	Cart(cart *model.Cart, isCheckoutOnProgress bool) error
 }
 
 // NewProcessor adalah sebuah konstruk untuk mengakses package 'Processor' ini

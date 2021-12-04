@@ -33,6 +33,8 @@ func (rh *RouteHandler) Route() *echo.Echo {
 	product.GET("/:id", rh.Product.DetailProductHandler)
 
 	cart := e.Group("/cart", echo.WrapMiddleware(rh.Cached.CheckSession))
+	cart.GET("", rh.Cart.GetCartHandler)
+
 	cartProduct := cart.Group("/product")
 	cartProduct.POST("/add", rh.Cart.AddToCartHandler)
 

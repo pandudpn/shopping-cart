@@ -123,5 +123,7 @@ func (c *Cart) GetWeight() float64 {
 		weight += cartProduct.GetProduct().Weight
 	}
 
+	weight = weight / 1000
+
 	return weight
 }

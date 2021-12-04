@@ -30,7 +30,7 @@ func (p *processor) GetAvailableCourier(cart *model.Cart) error {
 	}
 
 	for _, shipment := range shipperCouriers.Data.Pricings {
-		if cart.GetCourier() != nil || cart.GetCourier().Id != 0 {
+		if cart.GetCourier() != nil && cart.GetCourier().Id != 0 {
 			if cart.GetCourier().Code == shipment.GetCode() {
 				cart.GetCourier().DeliveryCost = shipment.TotalPrice
 				cart.GetCourier().DeliveryCostDiscount = shipment.DiscountedPrice
