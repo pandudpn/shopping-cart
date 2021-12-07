@@ -25,3 +25,8 @@ type CartControllerInterface interface {
 	AddToCartHandler(e echo.Context) error
 	GetCartHandler(e echo.Context) error
 }
+
+// CheckoutControllerInterface adalah kumpulan controller/handler yang berkaitan dengan checkout/proses keranjang belanja
+type CheckoutControllerInterface interface {
+	GetCheckoutHandler(e echo.Context) error
+}
