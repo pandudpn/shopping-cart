@@ -6,5 +6,10 @@ redis:
   dsn: 127.0.0.1:6379
   password: 
   dbnum: 0
+shipper:
+  api:
+    base:
+    key:
+    pricing:
 session:
   expired: 129600m # 90 hari
