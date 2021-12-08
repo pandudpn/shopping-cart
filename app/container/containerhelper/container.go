@@ -40,6 +40,17 @@ func GetCartController(c container.Container) (controller.CartControllerInterfac
 	return cci.(controller.CartControllerInterface), nil
 }
 
+func GetCheckoutController(c container.Container) (controller.CheckoutControllerInterface, error) {
+	key := constant.CHECKOUT
+
+	cci, err := c.BuildController(key)
+	if err != nil {
+		return nil, err
+	}
+
+	return cci.(controller.CheckoutControllerInterface), nil
+}
+
 func GetCachedMiddleware(c container.Container) (middleware.CachedMiddlewareInterface, error) {
 	mfi, err := c.BuildMiddleware(constant.REDIS)
 	if err != nil {

@@ -127,3 +127,7 @@ func (c *Cart) GetWeight() float64 {
 
 	return weight
 }
+
+func (c *Cart) IsNeedPayment() bool {
+	return c.Total > 0
+}

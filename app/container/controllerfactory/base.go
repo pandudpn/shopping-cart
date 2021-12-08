@@ -6,9 +6,10 @@ import (
 )
 
 var cFbMap = map[string]controllerFbInterface{
-	constant.USER:    &userControllerFactory{},
-	constant.PRODUCT: &productControllerFactory{},
-	constant.CART:    &cartControllerFactory{},
+	constant.USER:     &userControllerFactory{},
+	constant.PRODUCT:  &productControllerFactory{},
+	constant.CART:     &cartControllerFactory{},
+	constant.CHECKOUT: &checkoutControllerFactory{},
 }
 
 type ControllerFactoryInterface interface{}

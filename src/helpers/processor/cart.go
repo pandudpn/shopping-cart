@@ -44,5 +44,13 @@ func (p *processor) Cart(cart *model.Cart, isCheckoutOnProgress bool) error {
 	calculator := calculator.NewCartCalculator(p.cartRepo)
 	calculator.Calculate(cart)
 
+	if cart.IsNeedPayment() {
+		err = p.GetAvailablePaymentMethod(cart)
+		if err != nil {
+			logger.Log.Errorf("error get available payment method %v", err)
+			return ErrPaymentMethod
+		}
+	}
+
 	return nil
 }

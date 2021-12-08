@@ -12,9 +12,10 @@ import (
 // contoh : `user` akan mempunyai 2 case yaitu `register` dan `login`
 // maka `user` tersebut akan mempunyai package bernama `userusecasefactory`
 var ucFbMap = map[string]useCaseFbInterface{
-	constant.USER:    &userUseCaseFactory{},
-	constant.PRODUCT: &productUseCaseFactory{},
-	constant.CART:    &cartUseCaseFactory{},
+	constant.USER:     &userUseCaseFactory{},
+	constant.PRODUCT:  &productUseCaseFactory{},
+	constant.CART:     &cartUseCaseFactory{},
+	constant.CHECKOUT: &checkoutUseCaseFactory{},
 }
 
 type UseCaseFactoryInterface interface{}

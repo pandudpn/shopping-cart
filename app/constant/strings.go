@@ -19,4 +19,7 @@ const (
 	COURIER         = "courier"
 	STOCK           = "stock"
 	PAYMENTMETHOD   = "payment_method"
+
+	// Usecase
+	CHECKOUT = "checkout"
 )

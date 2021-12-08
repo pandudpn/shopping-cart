@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	QUERY_SELECT = "select pm.id, pm.code, pm.category, pm.name, pm.image" +
+	QUERY_SELECT = "select pm.id, pm.code, pm.category, pm.name, pm.image " +
 		"from payment_method pm where pm.enabled = true "
 	QUERY_BY_ID = QUERY_SELECT + "and pm.id = $1"
 )

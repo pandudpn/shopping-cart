@@ -21,7 +21,7 @@ func (cu *CheckoutUseCase) GetCheckout(ctx context.Context, key string, userId i
 	}
 
 	err = cu.TxRepo.TxEnd(func() error {
-		processor := processor.NewProcessor(cu.CartRepo, cu.CourierRepo, cu.UserAddressRepo)
+		processor := processor.NewProcessor(cu.CartRepo, cu.CourierRepo, cu.UserAddressRepo, cu.PaymentMethodRepo)
 
 		err = processor.Cart(cart, isCheckoutProgress)
 		return err
