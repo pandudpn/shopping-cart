@@ -20,6 +20,11 @@ type OrderPayment struct {
 	TotalPaid       float64
 	Status          StatusPayment
 	IsActive        bool
+	QrLink          *string
+	RedirectLink    *string
+	DeepLink        *string
+	VaNumber        *string
+	ExpiredAt       time.Time
 	ConfirmedAt     *time.Time
 	CreatedAt       time.Time
 	UpdatedAt       *time.Time
