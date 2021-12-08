@@ -150,6 +150,7 @@ var (
 	queryFind   = "query.find.error"
 	queryInsert = "query.insert.error"
 	queryUpdate = "query.update.failed"
+	bodyPayload = "body.payload"
 
 	message = map[string]string{
 		queryFind:              errGlobal,
@@ -164,6 +165,7 @@ var (
 		paymentMethodError:     "Metode pembayaran belum tersedia",
 		courierUnavail:         "Kurir tidak bisa menjangkau alamat pengiriman",
 		courierError:           "Kurir tidak tersedia",
+		bodyPayload:            "Permintaan kamu tidak lengkap",
 	}
 
 	systemCode = map[string]string{
@@ -176,6 +178,7 @@ var (
 		paymentMethodError:     "55",
 		courierUnavail:         "56",
 		courierUnavail:         "57",
+		bodyPayload:            "80",
 		queryFind:              "81",
 		queryInsert:            "82",
 		queryUpdate:            "83",
@@ -197,6 +200,7 @@ var (
 		paymentMethodError:     http.StatusNotFound,
 		courierUnavail:         http.StatusNotFound,
 		courierError:           http.StatusBadRequest,
+		bodyPayload:            http.StatusBadRequest,
 	}
 )
 
@@ -274,15 +278,16 @@ func createCheckoutView(cart *model.Cart) *checkoutView {
 		courierView = createCourierView(cart.GetCourier())
 
 		totalDeliveryCost = courierView.TotalPrice
+		deliveryCost = courierView.Price
+		deliveryCostDiscount = courierView.DiscountedPrice
 	}
 
 	if cart.GetPaymentMethod() != nil || (cart.GetPaymentMethod() != nil && cart.GetPaymentMethod().Id != 0) {
 		paymentMethodView = createPaymentMethod(cart.GetPaymentMethod())
 	}
 
-	totalPayment = totalProductsPrice + totalDeliveryCost
-
 	wg.Wait()
+	totalPayment = totalProductsPrice + totalDeliveryCost
 
 	checkoutView := &checkoutView{
 		Id:                      cart.Id,

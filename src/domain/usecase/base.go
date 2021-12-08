@@ -54,4 +54,8 @@ type CheckoutUseCaseInterface interface {
 	// pada method ini, data akan direset semua untuk meng-clear kan data yg akan diupdate oleh user itu sendiri seperti
 	// Courier, PaymentMethod
 	GetCheckout(ctx context.Context, key string, userId int) utils.ResponseInterface
+	// Update adalah bisnis logic untuk user memilih (mengubah data) kurir yg ingin dikirim, alamat tujuan, serta metode pembayaran
+	// yg user inginkan.
+	// method ini digunakan untuk mengubah data sesuai yg di user inginkan
+	Update(ctx context.Context, req *model.RequestCheckout) utils.ResponseInterface
 }

@@ -17,6 +17,11 @@ func (p *processor) Cart(cart *model.Cart, isCheckoutOnProgress bool) error {
 			logger.Log.Errorf("error update cart %v", err)
 			return ErrCartUpdate
 		}
+
+		cart.SetCourier(nil)
+		cart.SetPaymentMethod(nil)
+		cart.CourierId = nil
+		cart.PaymentMethodId = nil
 	}
 
 	if cart.UserAddressId == nil {
