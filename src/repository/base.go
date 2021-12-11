@@ -130,6 +130,45 @@ type CourierRepositoryInterface interface {
 	GetCourierShipper(client *http.Client, cart *model.Cart) ([]byte, error)
 }
 
+// OrderRepositoryInterface adalah kumpulan query-query pada table `order`
+type OrderRepositoryInterface interface {
+	// FindOrderByOrderNumber mengembalikan single data order berdasarkan order_number
+	// yg dipilih
+	FindOrderByOrderNumber(orderNumber string) (*model.Order, error)
+	// CreateOrder digunakan untuk membuat data order baru sesuai dengan data-data yg di input
+	// dan akan mengembalikan order.id yg baru setelah berhasil melakukan eksekusi tersebut
+	CreateOrder(order *model.Order) error
+	// UpdateOrder merupakan method untuk merubah data-data order sesuai dengan data yg baru
+	// dan berdasarkan order.id
+	UpdateOrder(order *model.Order) error
+}
+
+// OrderProductRepositoryInterface adalah kumpulan query-query pada table `order_product`
+type OrderProductRepositoryInterface interface {
+	// FindProductsByOrder mengembalikan seluruh data product berdasarkan order.id
+	FindProductsByOrder(order *model.Order) error
+	// CreateOrderProduct akan membuat baris baru sesusai dengan produk yg dipesan oleh user
+	CreateOrderProduct(orderProduct *model.OrderProduct) error
+}
+
+// OrderPaymentRepositoryInterface adalah kumpulan query-query pada table `order_payment`
+type OrderPaymentRepositoryInterface interface {
+	// FindPaymentByOrder akan mengembalikan single data order_payment berdasarkan order.id
+	FindPaymentByOrder(order *model.Order) error
+	// CreateOrderPayment akan membuat baris baru berdasarkan data-data yg di input
+	// dan akan mengembalikan order_payment.id yang baru
+	CreateOrderPayment(orderPayment *model.OrderPayment) error
+}
+
+// OrderDeliveryRepositoryInterface adalah kumpulan query-query pada table `order_delivery`
+type OrderDeliveryRepositoryInterface interface {
+	// FindDeliveryByOrder mengembalikan single data `order_delivery` berdasarkan order.id
+	FindDeliveryByOrder(order *model.Order) error
+	// CreateOrderDelivery akan membuat baris baru berdasarkan data-data yg di input
+	// dan akan mengembalikan order_delivery.id
+	CreateOrderDelivery(orderDelivery *model.OrderDelivery) error
+}
+
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya
 type TxRepositoryInterface interface {
 	TxEnd(txFunc func() error) error
