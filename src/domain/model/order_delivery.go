@@ -30,6 +30,10 @@ type OrderDelivery struct {
 	PackageReceivedAt    *time.Time
 	CreatedAt            time.Time
 	UpdatedAt            *time.Time
+
+	// Relation table
+	Courier      *Courier
+	UserDelivery *UserAddress
 }
 
 func NewOrderDelivery() *OrderDelivery {
@@ -55,4 +59,20 @@ func (od *OrderDelivery) SetStatusToPackageReceived() {
 
 func (od *OrderDelivery) SetStatusToCanceled() {
 	od.Status = StatusDeliveryCanceled
+}
+
+func (od *OrderDelivery) SetCourier(courier *Courier) {
+	od.Courier = courier
+}
+
+func (od *OrderDelivery) GetCourier() *Courier {
+	return od.Courier
+}
+
+func (od *OrderDelivery) SetUserDelivery(userAddress *UserAddress) {
+	od.UserDelivery = userAddress
+}
+
+func (od *OrderDelivery) GetUserDelivery() *UserAddress {
+	return od.UserDelivery
 }

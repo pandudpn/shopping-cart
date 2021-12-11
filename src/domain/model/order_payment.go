@@ -28,6 +28,9 @@ type OrderPayment struct {
 	ConfirmedAt     *time.Time
 	CreatedAt       time.Time
 	UpdatedAt       *time.Time
+
+	// Relation table
+	PaymentMethod *PaymentMethod
 }
 
 func NewOrderPayment() *OrderPayment {
@@ -58,4 +61,12 @@ func (op *OrderPayment) SetStatusToExpired() {
 
 func (op *OrderPayment) SetStatusToCanceled() {
 	op.Status = StatusPaymentCanceled
+}
+
+func (op *OrderPayment) SetPaymentMethod(paymentMethod *PaymentMethod) {
+	op.PaymentMethod = paymentMethod
+}
+
+func (op *OrderPayment) GetPaymentMethod() *PaymentMethod {
+	return op.PaymentMethod
 }

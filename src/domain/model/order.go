@@ -28,6 +28,11 @@ type Order struct {
 	CanceledAt         *time.Time
 	CreatedAt          time.Time
 	UpdatedAt          *time.Time
+
+	// Relation table
+	Products []*OrderProduct
+	Payment  *OrderPayment
+	Delivery *OrderDelivery
 }
 
 func NewOrder() *Order {
@@ -65,4 +70,41 @@ func (o *Order) SetStatusToCompleted() {
 
 func (o *Order) SetStatusToReturn() {
 	o.Status = StatusOrderReturn
+}
+
+func (o *Order) AddProduct(product *OrderProduct) {
+	o.Products = append(o.Products, product)
+}
+
+func (o *Order) RemoveProduct(product *OrderProduct) {
+	for idx, op := range o.Products {
+		if op.Id == product.Id {
+			o.Products = append(o.Products[:idx], o.Products[idx+1:]...)
+			break
+		}
+	}
+}
+
+func (o *Order) SetProducts(products []*OrderProduct) {
+	o.Products = products
+}
+
+func (o *Order) GetProducts() []*OrderProduct {
+	return o.Products
+}
+
+func (o *Order) SetPayment(payment *OrderPayment) {
+	o.Payment = payment
+}
+
+func (o *Order) GetPayment() *OrderPayment {
+	return o.Payment
+}
+
+func (o *Order) SetDelivery(delivery *OrderDelivery) {
+	o.Delivery = delivery
+}
+
+func (o *Order) GetDelivery() *OrderDelivery {
+	return o.Delivery
 }
