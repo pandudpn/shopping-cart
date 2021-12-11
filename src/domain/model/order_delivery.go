@@ -34,6 +34,7 @@ type OrderDelivery struct {
 	// Relation table
 	Courier      *Courier
 	UserDelivery *UserAddress
+	Statuses     []*OrderDeliveryStatus
 }
 
 func NewOrderDelivery() *OrderDelivery {
@@ -75,4 +76,25 @@ func (od *OrderDelivery) SetUserDelivery(userAddress *UserAddress) {
 
 func (od *OrderDelivery) GetUserDelivery() *UserAddress {
 	return od.UserDelivery
+}
+
+func (od *OrderDelivery) AddStatus(status *OrderDeliveryStatus) {
+	od.Statuses = append(od.Statuses, status)
+}
+
+func (od *OrderDelivery) RemoveStatus(status *OrderDeliveryStatus) {
+	for idx, o := range od.Statuses {
+		if o.Id == status.Id {
+			od.Statuses = append(od.Statuses[:idx], od.Statuses[idx+1:]...)
+			break
+		}
+	}
+}
+
+func (od *OrderDelivery) SetStatuses(statuses []*OrderDeliveryStatus) {
+	od.Statuses = statuses
+}
+
+func (od *OrderDelivery) GetStatuses() []*OrderDeliveryStatus {
+	return od.Statuses
 }
