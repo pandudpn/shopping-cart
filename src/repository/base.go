@@ -169,6 +169,14 @@ type OrderDeliveryRepositoryInterface interface {
 	CreateOrderDelivery(orderDelivery *model.OrderDelivery) error
 }
 
+// OrderDeliveryStatusRepositoryInterface adalah kumpulan query-query pada table `order_delivery_status`
+type OrderDeliveryStatusRepositoryInterface interface {
+	// CreateOrderDeliveryStatus akan membuat baris baru untuk status-status dari delivery order tersebut
+	CreateOrderDeliveryStatus(orderDeliveryStatus *model.OrderDeliveryStatus) error
+	// FindStatusByOrderDelivery akan mengembalikan beberapa status berdasarkan order_delivery.id
+	FindStatusByOrderDelivery(orderDelivery *model.OrderDelivery) error
+}
+
 // TxRepositoryInterface untuk melakukan transactional database dengan interface2 lainnya
 type TxRepositoryInterface interface {
 	TxEnd(txFunc func() error) error
