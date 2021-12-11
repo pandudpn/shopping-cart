@@ -17,7 +17,7 @@ const (
 	QUERY_SELECT = "select op.id, op.quantity, op.base_price, op.total_price, p.id, p.name, p.slug, p.price, c.id, c.name, c.slug " +
 		"from order_product as op inner join product as p on p.id = op.product_id " +
 		"inner join product_category as c on c.id = p.category_id "
-	QUERY_BY_ORDER_ID = QUERY_SELECT + "where order_id = $1"
+	QUERY_BY_ORDER_ID = QUERY_SELECT + "where op.order_id = $1"
 )
 
 func rowsToOrderProduct(rows *sql.Rows) (*model.OrderProduct, error) {
