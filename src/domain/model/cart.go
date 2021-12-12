@@ -33,6 +33,7 @@ type Cart struct {
 	DeliveryCostDiscount   float64
 	AvailableCourier       map[string]interface{}
 	AvailablePaymentMethod []*PaymentMethod
+	OrderNumber            string
 }
 
 func NewCart() *Cart {
@@ -130,4 +131,12 @@ func (c *Cart) GetWeight() float64 {
 
 func (c *Cart) IsNeedPayment() bool {
 	return c.Total > 0
+}
+
+func (c *Cart) SetOrderNumber(orderNumber string) {
+	c.OrderNumber = orderNumber
+}
+
+func (c *Cart) GetOrderNumber() string {
+	return c.OrderNumber
 }

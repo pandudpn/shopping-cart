@@ -17,6 +17,7 @@ type PaymentMethod struct {
 	Name     string
 	Image    *string
 	Enabled  bool
+	Key      string
 }
 
 func NewPaymentMethod() *PaymentMethod {

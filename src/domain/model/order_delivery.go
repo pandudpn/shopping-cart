@@ -19,7 +19,7 @@ type OrderDelivery struct {
 	DeliveryCost         float64
 	DeliveryCostDiscount float64
 	TotalDeliveryCost    float64
-	TrackingNumber       string
+	TrackingNumber       *string
 	Address              string
 	ReceivedName         string
 	PhoneNumber          string
@@ -30,6 +30,7 @@ type OrderDelivery struct {
 	PackageReceivedAt    *time.Time
 	CreatedAt            time.Time
 	UpdatedAt            *time.Time
+	Rate                 *int
 
 	// Relation table
 	Courier      *Courier
