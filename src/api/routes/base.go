@@ -42,6 +42,7 @@ func (rh *RouteHandler) Route() *echo.Echo {
 	checkout := e.Group("/checkout", echo.WrapMiddleware(rh.Cached.CheckSession))
 	checkout.GET("", rh.Checkout.GetCheckoutHandler)
 	checkout.PUT("", rh.Checkout.UpdateHandler)
+	checkout.POST("", rh.Checkout.PostHandler)
 
 	return e
 }

@@ -21,4 +21,10 @@ type CheckoutUseCase struct {
 	CourierRepo       repository.CourierRepositoryInterface
 	PaymentMethodRepo repository.PaymentMethodRepositoryInterface
 	TxRepo            repository.TxRepositoryInterface
+	// Order related
+	OrderRepo               repository.OrderRepositoryInterface
+	OrderProductRepo        repository.OrderProductRepositoryInterface
+	OrderPaymentRepo        repository.OrderPaymentRepositoryInterface
+	OrderDeliveryRepo       repository.OrderDeliveryRepositoryInterface
+	OrderDeliveryStatusRepo repository.OrderDeliveryStatusRepositoryInterface
 }

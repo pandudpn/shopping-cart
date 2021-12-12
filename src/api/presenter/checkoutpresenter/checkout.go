@@ -140,6 +140,7 @@ var (
 	updateCheckoutSuccess = "checkout.update.success"
 	updateCheckoutFailed  = "checkout.update.failed"
 	cartActive            = "checkout.active.failed"
+	paymentMethod         = "cart.payment_method.not_found"
 
 	deliveryAddressNotHave = "checkout.delivery_address.not_found"
 	paymentMethodError     = "checkout.payment_method.error"
@@ -166,10 +167,12 @@ var (
 		courierUnavail:         "Kurir tidak bisa menjangkau alamat pengiriman",
 		courierError:           "Kurir tidak tersedia",
 		bodyPayload:            "Permintaan kamu tidak lengkap",
+		paymentMethod:          "Metode pembayaran tidak ditemukan",
 	}
 
 	systemCode = map[string]string{
 		cartActive:             "44",
+		paymentMethod:          "45",
 		getCheckoutSuccess:     "50",
 		updateCheckoutSuccess:  "51",
 		getCheckoutFailed:      "52",
@@ -201,6 +204,7 @@ var (
 		courierUnavail:         http.StatusNotFound,
 		courierError:           http.StatusBadRequest,
 		bodyPayload:            http.StatusBadRequest,
+		paymentMethod:          http.StatusNotFound,
 	}
 )
 

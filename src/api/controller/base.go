@@ -30,4 +30,5 @@ type CartControllerInterface interface {
 type CheckoutControllerInterface interface {
 	GetCheckoutHandler(e echo.Context) error
 	UpdateHandler(e echo.Context) error
+	PostHandler(e echo.Context) error
 }

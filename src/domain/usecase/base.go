@@ -58,4 +58,6 @@ type CheckoutUseCaseInterface interface {
 	// yg user inginkan.
 	// method ini digunakan untuk mengubah data sesuai yg di user inginkan
 	Update(ctx context.Context, req *model.RequestCheckout) utils.ResponseInterface
+	// CreateOrder adalah bisnis logic untuk membuat sebuah order dari keranjang belanja dengan data yg sesuai user input
+	CreateOrder(ctx context.Context, req *model.RequestCheckout) utils.ResponseInterface
 }
