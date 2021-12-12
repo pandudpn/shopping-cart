@@ -22,8 +22,9 @@ Adapun fitur-fitur yang tersedia pada project ini :
 	- [x] Decrease quantity product
 	- [x] Show Cart
 * Checkout
-	- [ ] List available Courrier
-	- [ ] List Available Payment Method
+	- [x] List available Courrier
+	- [x] List Available Payment Method
+	- [x] Finish Checkout (convert Cart to Order)
 
 ### Design Pattern
 ####  1. Programming on Interface
