@@ -75,25 +75,69 @@ func (cuuf *checkoutUseCaseFactory) Build(c container.Container) (UseCaseFactory
 	}
 	pmri := pmrif.(repository.PaymentMethodRepositoryInterface)
 
+	// TX Repository
 	code = constant.TX
-
 	rufiTx, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
 	if err != nil {
 		return nil, err
 	}
-
 	uriTx := rufiTx.(repository.TxRepositoryInterface)
 
+	// Order Repository
+	code = constant.ORDER
+	orfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
+	if err != nil {
+		return nil, err
+	}
+	ori := orfi.(repository.OrderRepositoryInterface)
+
+	// Order Product Repository
+	code = constant.ORDERPRODUCT
+	orpfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
+	if err != nil {
+		return nil, err
+	}
+	orpi := orpfi.(repository.OrderProductRepositoryInterface)
+
+	// Order Payment Repository
+	code = constant.ORDERPAYMENT
+	orppfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
+	if err != nil {
+		return nil, err
+	}
+	orppi := orppfi.(repository.OrderPaymentRepositoryInterface)
+
+	// Order Delivery Repository
+	code = constant.ORDERDELIVERY
+	odrfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
+	if err != nil {
+		return nil, err
+	}
+	odri := odrfi.(repository.OrderDeliveryRepositoryInterface)
+
+	// Order Delivery Status Repository
+	code = constant.ORDERDELIVERYSTATUS
+	odsrfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
+	if err != nil {
+		return nil, err
+	}
+	odsri := odsrfi.(repository.OrderDeliveryStatusRepositoryInterface)
+
 	cuc := checkoutusecase.CheckoutUseCase{
-		ProductRepo:       pri,
-		CartRepo:          cri,
-		CartProductRepo:   cpri,
-		ProductImageRepo:  pir,
-		UserRepo:          uri,
-		UserAddressRepo:   uari,
-		CourierRepo:       cori,
-		PaymentMethodRepo: pmri,
-		TxRepo:            uriTx,
+		ProductRepo:             pri,
+		CartRepo:                cri,
+		CartProductRepo:         cpri,
+		ProductImageRepo:        pir,
+		UserRepo:                uri,
+		UserAddressRepo:         uari,
+		CourierRepo:             cori,
+		PaymentMethodRepo:       pmri,
+		TxRepo:                  uriTx,
+		OrderRepo:               ori,
+		OrderProductRepo:        orpi,
+		OrderPaymentRepo:        orppi,
+		OrderDeliveryRepo:       odri,
+		OrderDeliveryStatusRepo: odsri,
 	}
 
 	return &cuc, nil
