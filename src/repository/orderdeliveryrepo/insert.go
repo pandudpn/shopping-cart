@@ -10,9 +10,9 @@ func (odr *OrderDeliveryRepository) CreateOrderDelivery(orderDelivery *model.Ord
 	defer stmt.Close()
 
 	err = stmt.QueryRow(
-		orderDelivery.OrderId, orderDelivery.CourierId, orderDelivery.DeliveryAddressId, orderDelivery.DeliveryCost,
-		orderDelivery.DeliveryCostDiscount, orderDelivery.TotalDeliveryCost, orderDelivery.TrackingNumber, orderDelivery.Address,
-		orderDelivery.ReceivedName, orderDelivery.PhoneNumber, orderDelivery.Lat, orderDelivery.Long, orderDelivery.Status, orderDelivery.CreatedAt,
+		orderDelivery.OrderId, orderDelivery.CourierId, orderDelivery.DeliveryAddressId, orderDelivery.DeliveryCost, orderDelivery.DeliveryCostDiscount,
+		orderDelivery.TotalDeliveryCost, orderDelivery.TrackingNumber, orderDelivery.Address, orderDelivery.ReceivedName, orderDelivery.PhoneNumber,
+		orderDelivery.Lat, orderDelivery.Long, orderDelivery.Status, orderDelivery.CreatedAt, orderDelivery.Rate,
 	).Scan(&orderDelivery.Id)
 	return err
 }

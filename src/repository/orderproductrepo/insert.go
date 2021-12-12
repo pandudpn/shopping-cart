@@ -9,6 +9,6 @@ func (opr *OrderProductRepository) CreateOrderProduct(orderProduct *model.OrderP
 	}
 	defer stmt.Close()
 
-	err = stmt.QueryRow(orderProduct.OrderId, orderProduct.ProductId, orderProduct.Quantity, orderProduct.BasePrice, orderProduct.TotalPrice, orderProduct.CreatedAt).Scan(&orderProduct)
+	err = stmt.QueryRow(orderProduct.OrderId, orderProduct.ProductId, orderProduct.Quantity, orderProduct.BasePrice, orderProduct.TotalPrice, orderProduct.CreatedAt).Scan(&orderProduct.Id)
 	return err
 }

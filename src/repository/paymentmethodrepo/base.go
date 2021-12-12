@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	QUERY_SELECT = "select pm.id, pm.code, pm.category, pm.name, pm.image " +
+	QUERY_SELECT = "select pm.id, pm.code, pm.category, pm.name, pm.image, pm.key " +
 		"from payment_method pm where pm.enabled = true "
 	QUERY_BY_ID = QUERY_SELECT + "and pm.id = $1"
 )
@@ -20,7 +20,7 @@ type PaymentMethodRepository struct {
 func rowToPaymentMethod(row *sql.Row) (*model.PaymentMethod, error) {
 	paymentMethod := &model.PaymentMethod{}
 
-	err := row.Scan(&paymentMethod.Id, &paymentMethod.Code, &paymentMethod.Category, &paymentMethod.Name, &paymentMethod.Image)
+	err := row.Scan(&paymentMethod.Id, &paymentMethod.Code, &paymentMethod.Category, &paymentMethod.Name, &paymentMethod.Image, &paymentMethod.Key)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func rowToPaymentMethod(row *sql.Row) (*model.PaymentMethod, error) {
 func rowsToPaymentMethod(rows *sql.Rows) (*model.PaymentMethod, error) {
 	paymentMethod := &model.PaymentMethod{}
 
-	err := rows.Scan(&paymentMethod.Id, &paymentMethod.Code, &paymentMethod.Category, &paymentMethod.Name, &paymentMethod.Image)
+	err := rows.Scan(&paymentMethod.Id, &paymentMethod.Code, &paymentMethod.Category, &paymentMethod.Name, &paymentMethod.Image, &paymentMethod.Key)
 	if err != nil {
 		return nil, err
 	}

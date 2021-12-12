@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	QUERY_INSERT = "insert into public.order (cart_id, user_id, delivery_address_id " +
-		"order_number, total_products_price, total_delivery_cost, total_payment, status " +
+	QUERY_INSERT = "insert into public.order (cart_id, user_id, delivery_address_id, " +
+		"order_number, total_products_price, total_delivery_cost, total_payment, status, " +
 		"created_at) " +
 		"values($1, $2, $3, $4, $5, $6, $7, $8, $9) returning id"
 	QUERY_UPDATE = "update public.order set status=$1, completed_at=$2, canceled_at=$3, updated_at=$4 where id=$5"
