@@ -14,7 +14,7 @@ func (cu *CheckoutUseCase) CreateOrder(ctx context.Context, req *model.RequestCh
 	var order *model.Order
 	isCheckoutProgress := true
 
-	cart, err := cu.getActiveCart(req.CartKey, req.UserId)
+	cart, err := cu.getActiveCart(req.CartKey, req.UserId, isCheckoutProgress)
 	if err != nil {
 		logger.Log.Errorf("error get active cart %v", err)
 		return checkoutpresenter.FinishCheckout(nil, errActiveCart)
@@ -26,6 +26,10 @@ func (cu *CheckoutUseCase) CreateOrder(ctx context.Context, req *model.RequestCh
 		err = processor.Cart(cart, isCheckoutProgress)
 		if err != nil {
 			return err
+		}
+
+		if !cart.CanFinishCheckout {
+			return errCannotFinishCheckout
 		}
 
 		order, err = cu.convertCartToOrder(cart)

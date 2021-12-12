@@ -13,7 +13,7 @@ import (
 func (cu *CheckoutUseCase) Update(ctx context.Context, req *model.RequestCheckout) utils.ResponseInterface {
 	isCheckoutProgress := true
 
-	cart, err := cu.getActiveCart(req.CartKey, req.UserId)
+	cart, err := cu.getActiveCart(req.CartKey, req.UserId, isCheckoutProgress)
 	if err != nil {
 		logger.Log.Errorf("error get active cart %v", err)
 		return checkoutpresenter.ResponseCheckout(isCheckoutProgress, nil, errActiveCart)

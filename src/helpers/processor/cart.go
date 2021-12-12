@@ -57,5 +57,9 @@ func (p *processor) Cart(cart *model.Cart, isCheckoutOnProgress bool) error {
 		}
 	}
 
+	if cart.PaymentMethod != nil && cart.Courier != nil {
+		cart.CanFinishCheckout = true
+	}
+
 	return nil
 }

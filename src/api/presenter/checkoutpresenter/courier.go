@@ -59,7 +59,9 @@ func createAvailableCouriers(availableCouriers map[string]interface{}) []*availa
 			Couriers: couriersView,
 		}
 
-		couriers = append(couriers, availCourier)
+		if len(couriersView) > 0 {
+			couriers = append(couriers, availCourier)
+		}
 	}
 
 	return couriers

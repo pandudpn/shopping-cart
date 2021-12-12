@@ -17,6 +17,7 @@ type checkoutView struct {
 	DeliveryCostDiscount    float64                       `json:"deliveryCostDiscount"`
 	TotalDeliveryCost       float64                       `json:"totalDeliveryCost"`
 	TotalPayment            float64                       `json:"totalPayment"`
+	CanFinishCheckout       bool                          `json:"canFinishCheckout"`
 	Customer                *customerView                 `json:"customer"`
 	DeliveryAddress         *deliveryAddressView          `json:"deliveryAddress"`
 	Courier                 *courierView                  `json:"courier"`
@@ -146,6 +147,7 @@ var (
 	paymentMethod         = "cart.payment_method.not_found"
 	finishCheckoutSuccess = "checkout.finish.success"
 	finishCheckoutFailed  = "checkout.finish.failed"
+	checkoutNotYetFinish  = "checkout.cant.finish"
 
 	paymentError = "payment.create.error"
 
@@ -184,6 +186,7 @@ var (
 		userNotFound:           "User tidak ditemukan",
 		userAddressNotFound:    "Alamat user tidak ditemukan",
 		cartNotYours:           "Keranjang belanja bukan milik Anda",
+		checkoutNotYetFinish:   "Anda belum bisa membuat order, silakan lengkapi data-data terlebih dahulu",
 	}
 
 	systemCode = map[string]string{
@@ -202,6 +205,7 @@ var (
 		courierUnavail:         "56",
 		courierUnavail:         "57",
 		paymentError:           "58",
+		checkoutNotYetFinish:   "59",
 		finishCheckoutSuccess:  "60",
 		finishCheckoutFailed:   "61",
 		bodyPayload:            "80",
@@ -234,6 +238,7 @@ var (
 		userAddressNotFound:    http.StatusNotFound,
 		cartNotYours:           http.StatusForbidden,
 		finishCheckoutSuccess:  http.StatusCreated,
+		checkoutNotYetFinish:   http.StatusBadRequest,
 	}
 )
 
@@ -265,7 +270,7 @@ func ResponseCheckout(isCheckoutProgress bool, value interface{}, err error) uti
 func createCheckoutView(cart *model.Cart) *checkoutView {
 	var (
 		wg                     sync.WaitGroup
-		availableCouriers      []*availableCourierView
+		availableCouriers      = make([]*availableCourierView, 0)
 		availablePaymentMethod []*availablePaymentMethodView
 		customerView           *customerView
 		customerAddressView    *deliveryAddressView
@@ -330,6 +335,7 @@ func createCheckoutView(cart *model.Cart) *checkoutView {
 		DeliveryCostDiscount:    deliveryCostDiscount,
 		TotalDeliveryCost:       totalDeliveryCost,
 		TotalPayment:            totalPayment,
+		CanFinishCheckout:       cart.CanFinishCheckout,
 		Customer:                customerView,
 		DeliveryAddress:         customerAddressView,
 		Courier:                 courierView,

@@ -13,8 +13,9 @@ import (
 
 func (cu *CheckoutUseCase) GetCheckout(ctx context.Context, key string, userId int) utils.ResponseInterface {
 	isCheckoutProgress := false
+	isCheckout := true
 
-	cart, err := cu.getActiveCart(key, userId)
+	cart, err := cu.getActiveCart(key, userId, isCheckout)
 	if err != nil {
 		logger.Log.Errorf("error get active cart %v", err)
 		return checkoutpresenter.ResponseCheckout(isCheckoutProgress, nil, errActiveCart)
@@ -35,10 +36,10 @@ func (cu *CheckoutUseCase) GetCheckout(ctx context.Context, key string, userId i
 	return checkoutpresenter.ResponseCheckout(isCheckoutProgress, cart, nil)
 }
 
-func (cu *CheckoutUseCase) getActiveCart(key string, userId int) (*model.Cart, error) {
+func (cu *CheckoutUseCase) getActiveCart(key string, userId int, isCheckout bool) (*model.Cart, error) {
 	cartManager := manager.NewCartManager(cu.CartRepo, cu.CartProductRepo, cu.ProductImageRepo, cu.UserRepo, cu.UserAddressRepo, cu.CourierRepo, cu.PaymentMethodRepo)
 
-	cart, err := cartManager.GetActiveCart(key, userId)
+	cart, err := cartManager.GetActiveCart(key, userId, isCheckout)
 	if err != nil {
 		return nil, err
 	}

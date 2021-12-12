@@ -34,6 +34,7 @@ type Cart struct {
 	AvailableCourier       map[string]interface{}
 	AvailablePaymentMethod []*PaymentMethod
 	OrderNumber            string
+	CanFinishCheckout      bool
 }
 
 func NewCart() *Cart {

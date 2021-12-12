@@ -5,7 +5,7 @@ import (
 )
 
 type CartManagerInterface interface {
-	GetActiveCart(key string, userId int) (*model.Cart, error)
+	GetActiveCart(key string, userId int, isCheckout bool) (*model.Cart, error)
 }
 
 type StockManagerInterface interface {

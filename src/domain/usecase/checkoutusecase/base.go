@@ -7,11 +7,12 @@ import (
 )
 
 var (
-	errCheckout      = errors.New("checkout.get.failed")
-	errActiveCart    = errors.New("cart.active.failed")
-	errCreatePayment = errors.New("payment.create.error")
-	errInsert        = errors.New("query.insert.error")
-	errUpdate        = errors.New("query.update.failed")
+	errCheckout             = errors.New("checkout.get.failed")
+	errActiveCart           = errors.New("cart.active.failed")
+	errCreatePayment        = errors.New("payment.create.error")
+	errInsert               = errors.New("query.insert.error")
+	errUpdate               = errors.New("query.update.failed")
+	errCannotFinishCheckout = errors.New("checkout.cant.finish")
 )
 
 type CheckoutUseCase struct {
