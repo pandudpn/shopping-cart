@@ -27,7 +27,7 @@ func (cu *CheckoutUseCase) convertCartToOrder(cart *model.Cart) (*model.Order, e
 	handler, err := paymenthandler.GetHandlerPayment(cart.GetPaymentMethod().Code).Process(cart)
 	if err != nil {
 		logger.Log.Errorf("error payment handler %v", err)
-		return nil, errCreatePayment
+		return nil, err
 	}
 	orderPayment := handler.(*model.OrderPayment)
 

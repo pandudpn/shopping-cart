@@ -1,7 +1,6 @@
 package paymenthandler
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -33,7 +32,7 @@ func (e *xenditEwallet) Process(cart *model.Cart) (PaymentHandlerInterface, erro
 			"success_redirect_url": fmt.Sprintf(viper.GetString("application.url.redirect"), cart.GetOrderNumber()),
 		}
 	default:
-		return nil, errors.New("payment_method_handler.not_implemented")
+		return nil, errPaymentNotImplement
 	}
 
 	for _, cartProduct := range cart.GetProducts() {
@@ -63,7 +62,7 @@ func (e *xenditEwallet) Process(cart *model.Cart) (PaymentHandlerInterface, erro
 	charge, chargeErr := ewallet.CreateEWalletCharge(&data)
 	if chargeErr != nil {
 		logger.Log.Errorf("error charge e-wallet %v", chargeErr)
-		return nil, chargeErr
+		return nil, errPayment
 	}
 	logger.Log.Debugf("charge e-wallet %v", charge)
 

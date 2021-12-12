@@ -6,7 +6,8 @@ import (
 )
 
 var handler = map[string]paymentHandlerFb{
-	constant.XENDITEWALLET: &xenditEwallet{},
+	constant.XENDITEWALLET:        &xenditEwallet{},
+	constant.XENDITVIRTUALACCOUNT: &xenditVirtualAccount{},
 }
 
 type PaymentHandlerInterface interface{}
