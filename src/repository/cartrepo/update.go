@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	QUERY_UPDATE = "update cart set courier_id=$1, user_address_id=$2, payment_method_id=$3, updated_at=now() where id=$4"
+	QUERY_UPDATE = "update cart set courier_id=$1, user_address_id=$2, payment_method_id=$3, is_active=$4, updated_at=now() where id=$5"
 )
 
 func (cr *CartRepository) UpdateCart(cart *model.Cart) error {
@@ -17,7 +17,7 @@ func (cr *CartRepository) UpdateCart(cart *model.Cart) error {
 	}
 	defer stmt.Close()
 
-	res, err := stmt.Exec(cart.CourierId, cart.UserAddressId, cart.PaymentMethodId, cart.Id)
+	res, err := stmt.Exec(cart.CourierId, cart.UserAddressId, cart.PaymentMethodId, cart.IsActive, cart.Id)
 	if err != nil {
 		return err
 	}

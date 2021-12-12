@@ -1,12 +1,15 @@
 package model
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 const (
-	sameday = "same_day"
-	instant = "instant"
-	regular = "regular"
-	nextday = "next_day"
+	Sameday = "same_day"
+	Instant = "instant"
+	Regular = "regular"
+	Nextday = "next_day"
 )
 
 type Courier struct {
@@ -50,11 +53,11 @@ func (c *Courier) GetImage() string {
 }
 
 func (c *Courier) IsSameDay() bool {
-	return c.Category == sameday
+	return c.Category == Sameday
 }
 
 func (c *Courier) IsInstant() bool {
-	return c.Category == instant
+	return c.Category == Instant
 }
 
 func (c *Courier) CanPickSameDayOrInstant(userAddress *UserAddress) bool {
@@ -63,13 +66,38 @@ func (c *Courier) CanPickSameDayOrInstant(userAddress *UserAddress) bool {
 
 func (c *Courier) GetCategory() string {
 	switch c.Category {
-	case instant:
+	case Instant:
 		return "Instant"
-	case sameday:
+	case Sameday:
 		return "Same Day"
-	case nextday:
+	case Nextday:
 		return "Next Day"
 	default:
 		return "Regular"
 	}
+}
+
+func (c *Courier) GetLabel() string {
+	if c.IsInstant() || c.IsSameDay() {
+		return "Estimasi tiba hari ini"
+	} else {
+		if c.MinDay == 1 && c.MaxDay == 1 {
+			return "Estimasi tiba hari ini"
+		} else if c.MinDay == 1 && c.MaxDay == 2 {
+			return "Estimasi tiba besok"
+		} else if c.MinDay == 1 && c.MaxDay > 2 {
+			return fmt.Sprintf("Estimasi tiba besok - %s", addDate(c.MaxDay))
+		} else if c.MinDay > 1 && c.MaxDay > 2 {
+			return fmt.Sprintf("Estimasi tiba %s - %s", addDate(c.MinDay), addDate(c.MaxDay))
+		}
+	}
+
+	return ""
+}
+
+func addDate(add int) string {
+	timezone, _ := time.LoadLocation("Asia/Jakarta")
+	now := time.Now().In(timezone)
+
+	return time.Date(now.Year(), now.Month(), now.Day()+add, 0, 0, 0, 0, timezone).Format("02 Jan")
 }

@@ -1,8 +1,9 @@
 package model
 
 const (
-	Ewallet = "e-wallet"
-	VA      = "virtual_account"
+	Ewallet    = "e-wallet"
+	VA         = "virtual_account"
+	CreditCard = "credit_card"
 
 	MdGopay   = "midtransgopay"
 	MdVa      = "midtransva"
@@ -16,6 +17,7 @@ type PaymentMethod struct {
 	Name     string
 	Image    *string
 	Enabled  bool
+	Key      string
 }
 
 func NewPaymentMethod() *PaymentMethod {
@@ -30,6 +32,8 @@ func (pm *PaymentMethod) GetCategory() string {
 		return "E-Wallet"
 	case VA:
 		return "Virtual Account"
+	case CreditCard:
+		return "Credit Card"
 	default:
 		return ""
 	}

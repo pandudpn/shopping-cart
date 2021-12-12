@@ -37,8 +37,9 @@ func (cu *CartUseCase) AddToCart(ctx context.Context, req *model.RequestAddToCar
 
 func (cu *CartUseCase) GetCart(ctx context.Context, userId int, key string) utils.ResponseInterface {
 	var err error
+	isCheckout := false
 
-	cart, err := cu.getActiveCart(key, userId)
+	cart, err := cu.getActiveCart(key, userId, isCheckout)
 	if err != nil {
 		logger.Log.Errorf("error get cart %v", err)
 		return cartpresenter.ResponseCart(false, nil, err)
@@ -48,6 +49,7 @@ func (cu *CartUseCase) GetCart(ctx context.Context, userId int, key string) util
 }
 
 func (cu *CartUseCase) addToCart(req *model.RequestAddToCart) (*model.Cart, error) {
+	isCheckout := false
 	product, err := cu.ProductRepo.FindProductById(req.ProductId)
 	if err != nil {
 		logger.Log.Errorf("error get product %v", err)
@@ -59,7 +61,7 @@ func (cu *CartUseCase) addToCart(req *model.RequestAddToCart) (*model.Cart, erro
 		return nil, errQuantity
 	}
 
-	cart, err := cu.getActiveCart(req.SecretKey, req.UserId)
+	cart, err := cu.getActiveCart(req.SecretKey, req.UserId, isCheckout)
 	if err != nil {
 		logger.Log.Errorf("error get active cart %v", err)
 		return nil, errActiveCart

@@ -1,10 +1,31 @@
 application:
   port: 8000
+  url:
+    callback: 
+    redirect: 
 db:
-  dsn: user=postgres password= host= port=5432 dbname= sslmode=disable TimeZone=Asia/Jakarta
+  dsn: user=postgres password= host=127.0.0.1 port=51001 dbname=shopping_cart sslmode=disable TimeZone=Asia/Jakarta
 redis:
   dsn: 127.0.0.1:6379
   password: 
   dbnum: 0
+shipper:
+  api:
+    base: https://merchant-api-sandbox.shipper.id
+    key: 
+    pricing: /v3/pricing/domestic
+payment:
+  max:
+    ewallet: 10000000
+  min:
+    creditcard: 500000
 session:
   expired: 129600m # 90 hari
+xendit:
+  api:
+    base: https://api.xendit.co
+    ewallet: /ewallets/charge
+    secretkey: 
+  expired:
+    ewallet: 10m # 10 menit
+    va: 60m # 1 jam

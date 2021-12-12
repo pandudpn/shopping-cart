@@ -48,9 +48,9 @@ func rowsToUserAddress(rows *sql.Rows) (*model.UserAddress, error) {
 		return nil, err
 	}
 
-	city.SetParent(district)
-	district.SetParent(city)
 	city.SetParent(province)
+	district.SetParent(city)
+	area.SetParent(district)
 
 	userAddress.SetProvince(province)
 	userAddress.SetCity(city)

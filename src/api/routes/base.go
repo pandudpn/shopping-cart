@@ -8,10 +8,11 @@ import (
 )
 
 type RouteHandler struct {
-	User    controller.UserControllerInterface
-	Product controller.ProductControllerInterface
-	Cart    controller.CartControllerInterface
-	Cached  middleware.CachedMiddlewareInterface
+	User     controller.UserControllerInterface
+	Product  controller.ProductControllerInterface
+	Cart     controller.CartControllerInterface
+	Cached   middleware.CachedMiddlewareInterface
+	Checkout controller.CheckoutControllerInterface
 }
 
 type RouteInterface interface {
@@ -37,6 +38,11 @@ func (rh *RouteHandler) Route() *echo.Echo {
 
 	cartProduct := cart.Group("/product")
 	cartProduct.POST("/add", rh.Cart.AddToCartHandler)
+
+	checkout := e.Group("/checkout", echo.WrapMiddleware(rh.Cached.CheckSession))
+	checkout.GET("", rh.Checkout.GetCheckoutHandler)
+	checkout.PUT("", rh.Checkout.UpdateHandler)
+	checkout.POST("", rh.Checkout.PostHandler)
 
 	return e
 }

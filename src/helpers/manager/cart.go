@@ -36,7 +36,7 @@ func NewCartManager(
 	}
 }
 
-func (cm *cartManager) GetActiveCart(key string, userId int) (*model.Cart, error) {
+func (cm *cartManager) GetActiveCart(key string, userId int, isCheckout bool) (*model.Cart, error) {
 	activeCart := model.NewCart()
 
 	if reflect.ValueOf(key).IsZero() {

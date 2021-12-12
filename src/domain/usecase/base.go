@@ -43,3 +43,21 @@ type CartUseCaseInterface interface {
 	// GetCart adalah sebuah method untuk user menampilkan produk-produk yg telah dimasukkan kedalam ke keranjang belanja
 	GetCart(ctx context.Context, userId int, key string) utils.ResponseInterface
 }
+
+// CheckoutUseCaseInterface adalah usecase untuk user melakukan pemilihan kurir, metode pembayaran serta alamat yang dikirim
+// pada usecase ini terdapat banyak beberapa logic seperti
+//    1. mencari kurir berdasarkan alamat yg dituju
+//    2. mencari metode pembayaran yg bisa dilakukan
+//    3. apakah barang tersebut available dibeli atau tidak
+type CheckoutUseCaseInterface interface {
+	// GetCheckout adalah bisnis logic untuk user pertama kali masuk ke page halaman pembayaran atau checkout
+	// pada method ini, data akan direset semua untuk meng-clear kan data yg akan diupdate oleh user itu sendiri seperti
+	// Courier, PaymentMethod
+	GetCheckout(ctx context.Context, key string, userId int) utils.ResponseInterface
+	// Update adalah bisnis logic untuk user memilih (mengubah data) kurir yg ingin dikirim, alamat tujuan, serta metode pembayaran
+	// yg user inginkan.
+	// method ini digunakan untuk mengubah data sesuai yg di user inginkan
+	Update(ctx context.Context, req *model.RequestCheckout) utils.ResponseInterface
+	// CreateOrder adalah bisnis logic untuk membuat sebuah order dari keranjang belanja dengan data yg sesuai user input
+	CreateOrder(ctx context.Context, req *model.RequestCheckout) utils.ResponseInterface
+}

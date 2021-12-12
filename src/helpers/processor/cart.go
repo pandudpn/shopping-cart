@@ -17,6 +17,11 @@ func (p *processor) Cart(cart *model.Cart, isCheckoutOnProgress bool) error {
 			logger.Log.Errorf("error update cart %v", err)
 			return ErrCartUpdate
 		}
+
+		cart.SetCourier(nil)
+		cart.SetPaymentMethod(nil)
+		cart.CourierId = nil
+		cart.PaymentMethodId = nil
 	}
 
 	if cart.UserAddressId == nil {
@@ -43,6 +48,18 @@ func (p *processor) Cart(cart *model.Cart, isCheckoutOnProgress bool) error {
 
 	calculator := calculator.NewCartCalculator(p.cartRepo)
 	calculator.Calculate(cart)
+
+	if cart.IsNeedPayment() {
+		err = p.GetAvailablePaymentMethod(cart)
+		if err != nil {
+			logger.Log.Errorf("error get available payment method %v", err)
+			return ErrPaymentMethod
+		}
+	}
+
+	if cart.PaymentMethod != nil && cart.Courier != nil {
+		cart.CanFinishCheckout = true
+	}
 
 	return nil
 }
