@@ -3,6 +3,7 @@ package checkoutpresenter
 import (
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/pandudpn/shopping-cart/src/domain/model"
 	"github.com/pandudpn/shopping-cart/src/utils"
@@ -133,7 +134,9 @@ type formattedProductView struct {
 }
 
 var (
-	errGlobal string = "Terjadi kesalahan pada server, silakan coba beberapa saat lagi"
+	timezone, _           = time.LoadLocation("Asia/Jakarta")
+	datetimeFormat        = "2006-01-02T15:04:05-0700"
+	errGlobal      string = "Terjadi kesalahan pada server, silakan coba beberapa saat lagi"
 
 	getCheckoutSuccess    = "checkout.get.success"
 	getCheckoutFailed     = "checkout.get.failed"
@@ -141,11 +144,19 @@ var (
 	updateCheckoutFailed  = "checkout.update.failed"
 	cartActive            = "checkout.active.failed"
 	paymentMethod         = "cart.payment_method.not_found"
+	finishCheckoutSuccess = "checkout.finish.success"
+	finishCheckoutFailed  = "checkout.finish.failed"
+
+	paymentError = "payment.create.error"
 
 	deliveryAddressNotHave = "checkout.delivery_address.not_found"
 	paymentMethodError     = "checkout.payment_method.error"
 	courierUnavail         = "courier.not_avail"
 	courierError           = "courier.error"
+	courierNotFound        = "cart.courier.not_found"
+	userNotFound           = "cart.user.not_found"
+	userAddressNotFound    = "cart.user_address.not_found"
+	cartNotYours           = "cart.not_yours"
 
 	keyRequired = "header.key.required"
 	queryFind   = "query.find.error"
@@ -168,11 +179,20 @@ var (
 		courierError:           "Kurir tidak tersedia",
 		bodyPayload:            "Permintaan kamu tidak lengkap",
 		paymentMethod:          "Metode pembayaran tidak ditemukan",
+		paymentError:           "Gagal membuat pembayaran",
+		courierNotFound:        "Kurir tidak ditemukan",
+		userNotFound:           "User tidak ditemukan",
+		userAddressNotFound:    "Alamat user tidak ditemukan",
+		cartNotYours:           "Keranjang belanja bukan milik Anda",
 	}
 
 	systemCode = map[string]string{
 		cartActive:             "44",
 		paymentMethod:          "45",
+		courierNotFound:        "46",
+		userNotFound:           "47",
+		userAddressNotFound:    "48",
+		cartNotYours:           "49",
 		getCheckoutSuccess:     "50",
 		updateCheckoutSuccess:  "51",
 		getCheckoutFailed:      "52",
@@ -181,6 +201,9 @@ var (
 		paymentMethodError:     "55",
 		courierUnavail:         "56",
 		courierUnavail:         "57",
+		paymentError:           "58",
+		finishCheckoutSuccess:  "60",
+		finishCheckoutFailed:   "61",
 		bodyPayload:            "80",
 		queryFind:              "81",
 		queryInsert:            "82",
@@ -205,6 +228,12 @@ var (
 		courierError:           http.StatusBadRequest,
 		bodyPayload:            http.StatusBadRequest,
 		paymentMethod:          http.StatusNotFound,
+		paymentError:           http.StatusInternalServerError,
+		courierNotFound:        http.StatusNotFound,
+		userNotFound:           http.StatusNotFound,
+		userAddressNotFound:    http.StatusNotFound,
+		cartNotYours:           http.StatusForbidden,
+		finishCheckoutSuccess:  http.StatusCreated,
 	}
 )
 

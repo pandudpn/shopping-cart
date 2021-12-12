@@ -55,6 +55,7 @@ var (
 	getCartFailed    = "cart.failed"
 	addToCartSuccess = "cart.add_product"
 	cartActive       = "cart.active.failed"
+	cartNotYours     = "cart.not_yours"
 
 	productNotFound = "cart.product.not_found"
 	productQuantity = "cart.product.quantity"
@@ -73,6 +74,7 @@ var (
 		productQuantity: "Stok produk tidak mencukupi",
 		getCartFailed:   "Gagal mengambil keranjang belanja anda",
 		bodyPayload:     "Permintaan kamu tidak lengkap",
+		cartNotYours:    "Keranjang belanja bukan milik Anda",
 	}
 
 	systemCode = map[string]string{
@@ -82,6 +84,7 @@ var (
 		addToCartSuccess: "41",
 		getCartFailed:    "43",
 		cartActive:       "44",
+		cartNotYours:     "49",
 		bodyPayload:      "80",
 		queryFind:        "81",
 		queryInsert:      "82",
@@ -99,6 +102,7 @@ var (
 		queryUpdate:      http.StatusInternalServerError,
 		bodyPayload:      http.StatusBadRequest,
 		cartActive:       http.StatusInternalServerError,
+		cartNotYours:     http.StatusForbidden,
 	}
 )
 

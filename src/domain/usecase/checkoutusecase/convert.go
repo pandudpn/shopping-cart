@@ -27,7 +27,7 @@ func (cu *CheckoutUseCase) convertCartToOrder(cart *model.Cart) (*model.Order, e
 	handler, err := paymenthandler.GetHandlerPayment(cart.GetPaymentMethod().Code).Process(cart)
 	if err != nil {
 		logger.Log.Errorf("error payment handler %v", err)
-		return nil, err
+		return nil, errCreatePayment
 	}
 	orderPayment := handler.(*model.OrderPayment)
 
@@ -35,7 +35,7 @@ func (cu *CheckoutUseCase) convertCartToOrder(cart *model.Cart) (*model.Order, e
 	err = cu.OrderRepo.CreateOrder(order)
 	if err != nil {
 		logger.Log.Errorf("error create order %v", err)
-		return nil, err
+		return nil, errInsert
 	}
 
 	wg.Add(1)
@@ -62,8 +62,7 @@ func (cu *CheckoutUseCase) convertCartToOrder(cart *model.Cart) (*model.Order, e
 	}()
 	select {
 	case err = <-errChan:
-		logger.Log.Errorf("error %v", err)
-		return nil, err
+		return nil, errInsert
 	default:
 	}
 	wg.Wait()
@@ -72,7 +71,7 @@ func (cu *CheckoutUseCase) convertCartToOrder(cart *model.Cart) (*model.Order, e
 	err = cu.CartRepo.UpdateCart(cart)
 	if err != nil {
 		logger.Log.Errorf("error update cart to inactive %v", err)
-		return nil, err
+		return nil, errUpdate
 	}
 
 	return order, nil
