@@ -21,7 +21,7 @@ func (cu *CheckoutUseCase) CreateOrder(ctx context.Context, req *model.RequestCh
 	}
 
 	err = cu.TxRepo.TxEnd(func() error {
-		processor := processor.NewProcessor(cu.CartRepo, cu.CourierRepo, cu.UserAddressRepo, cu.PaymentMethodRepo)
+		processor := processor.NewProcessor(cu.RedisRepo, cu.CartRepo, cu.CourierRepo, cu.UserAddressRepo, cu.PaymentMethodRepo)
 
 		err = processor.Cart(cart, isCheckoutProgress)
 		if err != nil {

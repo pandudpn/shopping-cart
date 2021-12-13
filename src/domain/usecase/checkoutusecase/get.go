@@ -22,7 +22,7 @@ func (cu *CheckoutUseCase) GetCheckout(ctx context.Context, key string, userId i
 	}
 
 	err = cu.TxRepo.TxEnd(func() error {
-		processor := processor.NewProcessor(cu.CartRepo, cu.CourierRepo, cu.UserAddressRepo, cu.PaymentMethodRepo)
+		processor := processor.NewProcessor(cu.RedisRepo, cu.CartRepo, cu.CourierRepo, cu.UserAddressRepo, cu.PaymentMethodRepo)
 
 		err = processor.Cart(cart, isCheckoutProgress)
 		return err
@@ -43,8 +43,6 @@ func (cu *CheckoutUseCase) getActiveCart(key string, userId int, isCheckout bool
 	if err != nil {
 		return nil, err
 	}
-
-	logger.Log.Debug(cart.Id, cart.UserId)
 
 	if cart.Id == 0 {
 		err = cu.CartRepo.InsertNewCart(cart)

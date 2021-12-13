@@ -25,7 +25,7 @@ func (cu *CheckoutUseCase) Update(ctx context.Context, req *model.RequestCheckou
 			return err
 		}
 
-		processor := processor.NewProcessor(cu.CartRepo, cu.CourierRepo, cu.UserAddressRepo, cu.PaymentMethodRepo)
+		processor := processor.NewProcessor(cu.RedisRepo, cu.CartRepo, cu.CourierRepo, cu.UserAddressRepo, cu.PaymentMethodRepo)
 
 		err = processor.Cart(cart, isCheckoutProgress)
 		return err

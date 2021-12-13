@@ -70,11 +70,9 @@ func (cm *cartManager) GetActiveCart(key string, userId int, isCheckout bool) (*
 
 	wg := sync.WaitGroup{}
 	// cek apakah cart baru atau cart existing
-	logger.Log.Debug(activeCart.Id)
 	if activeCart.Id == 0 { // cart baru
 		activeCart.UserId = userId
 	} else {
-		logger.Log.Debugf("active cart %v", activeCart)
 		// query for get all relation cart will be here
 		err := cm.cartProductRepo.FindCartProductsByCartId(activeCart)
 		if err != nil {

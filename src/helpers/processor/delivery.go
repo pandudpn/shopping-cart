@@ -11,6 +11,7 @@ func (p *processor) GetAvailableCourier(cart *model.Cart) error {
 	var (
 		couriers        = make(map[string]interface{})
 		shipperCouriers model.ResponseShipperPricing
+		couriersByte    []byte
 	)
 
 	availableCouriers := p.getCouriers()
@@ -18,11 +19,20 @@ func (p *processor) GetAvailableCourier(cart *model.Cart) error {
 		return ErrCourierNotAvail
 	}
 
-	couriersByte, err := p.courierRepo.GetCourierShipper(p.client, cart)
+	couriersByte, err := p.redisRepo.GetCachedShipper(cart)
 	if err != nil {
-		logger.Log.Errorf("error get courier from shipper %v", err)
-		return ErrCourier
+		couriersByte, err = p.courierRepo.GetCourierShipper(p.client, cart)
+		if err != nil {
+			logger.Log.Errorf("error get courier from shipper %v", err)
+			return ErrCourier
+		}
+
+		err = p.redisRepo.SetCachedShipper(cart, couriersByte)
+		if err != nil {
+			logger.Log.Errorf("error while set shipper to redis %v", err)
+		}
 	}
+
 	err = json.Unmarshal(couriersByte, &shipperCouriers)
 	if err != nil {
 		logger.Log.Errorf("error unmarshal courier shipper %v", err)

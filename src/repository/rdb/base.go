@@ -43,6 +43,18 @@ func (rr *RedisRepository) get(key string, dest interface{}) error {
 	return err
 }
 
+func (rr *RedisRepository) getString(key string) (string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	res := rr.RDb.Get(ctx, key)
+	if res.Err() != nil {
+		return "", res.Err()
+	}
+
+	return res.Val(), nil
+}
+
 func (rr *RedisRepository) delete(key string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()

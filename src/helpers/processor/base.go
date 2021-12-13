@@ -24,6 +24,7 @@ type processor struct {
 	courierRepo       repository.CourierRepositoryInterface
 	userAddressRepo   repository.UserAddressRepositoryInterface
 	paymentMethodRepo repository.PaymentMethodRepositoryInterface
+	redisRepo         repository.RedisRepositoryInterface
 }
 
 // ProcessorInterface adalah sebuah interface yang menampung method yang dapat di akses pada package 'Processor' ini
@@ -40,7 +41,7 @@ type ProcessorInterface interface {
 }
 
 // NewProcessor adalah sebuah konstruk untuk mengakses package 'Processor' ini
-func NewProcessor(cartRepo repository.CartRepositoryInterface, courierRepo repository.CourierRepositoryInterface, userAddressRepo repository.UserAddressRepositoryInterface, paymentMethodRepo repository.PaymentMethodRepositoryInterface) ProcessorInterface {
+func NewProcessor(redisRepo repository.RedisRepositoryInterface, cartRepo repository.CartRepositoryInterface, courierRepo repository.CourierRepositoryInterface, userAddressRepo repository.UserAddressRepositoryInterface, paymentMethodRepo repository.PaymentMethodRepositoryInterface) ProcessorInterface {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
@@ -50,6 +51,7 @@ func NewProcessor(cartRepo repository.CartRepositoryInterface, courierRepo repos
 	}
 
 	return &processor{
+		redisRepo:         redisRepo,
 		cartRepo:          cartRepo,
 		courierRepo:       courierRepo,
 		userAddressRepo:   userAddressRepo,

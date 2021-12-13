@@ -15,6 +15,9 @@ var (
 )
 
 type CheckoutUseCase struct {
+	// redis repository
+	RedisRepo repository.RedisRepositoryInterface
+	// Cart, user, and courier related
 	CartRepo          repository.CartRepositoryInterface
 	CartProductRepo   repository.CartProductRepositoryInterface
 	ProductRepo       repository.ProductRepositoryInterface

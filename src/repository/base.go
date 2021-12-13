@@ -46,6 +46,11 @@ type RedisRepositoryInterface interface {
 	// hasil dari key tersebut berupa `products-{limit}-{page}`
 	// jika terdapat pencarian product maka key menjadi `products-{limit}-{page}-{search}`
 	SaveProductsCache(i interface{}, searchProduct string) error
+	// SetCachedShipper digunakan untuk menyimpan data resposne dari shipper.id
+	// key yg digunakan pada redis ialah `{card.id}{cart.user_address_id}`
+	SetCachedShipper(cart *model.Cart, dataByte []byte) error
+	// GetCachedShipper untuk mengambil data delivery shipper.id yg telah di cached ke dalam redis
+	GetCachedShipper(cart *model.Cart) ([]byte, error)
 }
 
 // ProductRepositoryInterface digunakan untuk kumpulan query untuk table product

@@ -1,11 +1,13 @@
 package rdb
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"reflect"
 	"time"
 
+	"github.com/pandudpn/shopping-cart/src/domain/model"
 	"github.com/pandudpn/shopping-cart/src/utils/logger"
 	"github.com/spf13/viper"
 )
@@ -55,4 +57,44 @@ func (r *RedisRepository) SaveProductsCache(i interface{}, searchProduct string)
 	}
 
 	return nil
+}
+
+func (r *RedisRepository) SetCachedShipper(cart *model.Cart, dataByte []byte) error {
+	var i interface{}
+
+	keyString := fmt.Sprintf("%d%d", cart.Id, *cart.UserAddressId)
+	key := base64.StdEncoding.EncodeToString([]byte(keyString))
+
+	duration, err := time.ParseDuration(viper.GetString("cached.shipper"))
+	if err != nil {
+		logger.Log.Errorf("error parsing duration shipper.id %v", err)
+		return err
+	}
+
+	err = json.Unmarshal(dataByte, &i)
+	if err != nil {
+		logger.Log.Errorf("error unmarshal on cached shipper %v", err)
+		return err
+	}
+
+	err = r.save(key, i, duration)
+	if err != nil {
+		logger.Log.Errorf("error save to redis %v", err)
+		return err
+	}
+
+	return nil
+}
+
+func (r *RedisRepository) GetCachedShipper(cart *model.Cart) ([]byte, error) {
+	keyString := fmt.Sprintf("%d%d", cart.Id, *cart.UserAddressId)
+
+	key := base64.StdEncoding.EncodeToString([]byte(keyString))
+
+	result, err := r.getString(key)
+	if err != nil {
+		return nil, err
+	}
+
+	return []byte(result), nil
 }

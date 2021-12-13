@@ -123,6 +123,13 @@ func (cuuf *checkoutUseCaseFactory) Build(c container.Container) (UseCaseFactory
 	}
 	odsri := odsrfi.(repository.OrderDeliveryStatusRepositoryInterface)
 
+	code = constant.REDIS
+	rdfi, err := repositoryfactory.GetRepositoryFbMap(code).Build(c)
+	if err != nil {
+		return nil, err
+	}
+	rr := rdfi.(repository.RedisRepositoryInterface)
+
 	cuc := checkoutusecase.CheckoutUseCase{
 		ProductRepo:             pri,
 		CartRepo:                cri,
@@ -138,6 +145,7 @@ func (cuuf *checkoutUseCaseFactory) Build(c container.Container) (UseCaseFactory
 		OrderPaymentRepo:        orppi,
 		OrderDeliveryRepo:       odri,
 		OrderDeliveryStatusRepo: odsri,
+		RedisRepo:               rr,
 	}
 
 	return &cuc, nil
