@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
+	
 	"github.com/pandudpn/shopping-cart/src/utils/logger"
 	"github.com/sirupsen/logrus"
 )
@@ -37,7 +37,7 @@ func registerLog() {
 			},
 		},
 	}
-
+	
 	logger.SetLoggeer(log)
 }
 
@@ -63,6 +63,7 @@ func (f *logrusFormatted) Format(entry *logrus.Entry) ([]byte, error) {
 	} else {
 		file = strings.Join(files, "/")
 	}
-
+	line = entry.Caller.Line
+	
 	return []byte(fmt.Sprintf("[%s] - \x1b[%dm%s [/%s %d]\x1b[0m - %s\n", entry.Time.Format(f.TimestampFormat), levelColor, strings.ToUpper(entry.Level.String()), file, line, entry.Message)), nil
 }
