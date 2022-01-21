@@ -13,17 +13,14 @@ env:
   SSH_KEY: ${{ secrets.SSH }}
 
 jobs:
-  checkout:
-    name: Checkout Repository
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
   build-image:
     name: Build and Push Image
     runs-on: ubuntu-20.04
     steps:
+      # checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      # build and push image
       - name: Build and Push image into Registry
         run: |-
           docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }} && \
@@ -31,6 +28,7 @@ jobs:
           docker push ${{ env.DOCKER_URL }}:dev
 
   deploy:
+    needs: [build-image]
     name: Deploy to Playground
     runs-on: ubuntu-20.04
     steps:
