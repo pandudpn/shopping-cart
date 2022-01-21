@@ -9,7 +9,7 @@ env:
   DIRECTORY: /var/www/projects/pandudpn/cart
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  DOCKER_URL: ${{ secrets.DOCKER_USERNAME }}/shopping-cart-api
+  DOCKER_URL: ${{ secrets.DOCKER_USERNAME }}/shopping-cart
   SSH_KEY: ${{ secrets.SSH }}
 
 jobs:
@@ -25,8 +25,8 @@ jobs:
       - name: Build and Push image into Registry
         run: |-
           docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }} && \
-          docker build -t ${{ env.DOCKER_URL }}:beta . && \
-          docker push ${{ env.DOCKER_URL }}
+          docker build -t ${{ env.DOCKER_URL }}:dev . && \
+          docker push ${{ env.DOCKER_URL }}:dev
 
       - name: Deploy into VPS
         run: |-
