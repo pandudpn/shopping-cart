@@ -29,7 +29,10 @@ jobs:
           docker push ${{ env.DOCKER_URL }}:dev
 
       - name: Deploy into VPS
-        run: |-
-          echo ${{ env.SSH_KEY }} > .ssh_key && \
-          ssh -i .ssh_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} && \
-          cd ${{ env.DIRECTORY }} && docker-compose pull && docker-compose up -d
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ env.SSH_KEY }}
+          script: |
+            cd ${{ env.DIRECTORY }} && docker-compose pull && docer-compose up -d
