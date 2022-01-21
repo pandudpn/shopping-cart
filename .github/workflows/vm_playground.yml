@@ -31,5 +31,5 @@ jobs:
       - name: Deploy into VPS
         run: |-
           echo ${{ env.SSH_KEY }} > .ssh_key && \
-          ssh -i .ssh_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+          ssh -i .ssh_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} && \
           cd ${{ env.DIRECTORY }} && docker-compose pull && docker-compose up -d
