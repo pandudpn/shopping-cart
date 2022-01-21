@@ -35,4 +35,4 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ env.SSH_KEY }}
           script: |
-            cd ${{ env.DIRECTORY }} && docker-compose pull && docer-compose up -d
+            cd ${{ env.DIRECTORY }} && docker-compose pull && docker-compose up -d
