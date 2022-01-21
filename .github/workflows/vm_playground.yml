@@ -7,10 +7,9 @@ on:
 
 env:
   DIRECTORY: /var/www/projects/pandudpn/cart
-  SERVICE_NAME: shopping-cart-api
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  DOCKER_URL: ${{ secrets.DOCKER_USERNAME }}/${{ env.SERVICE_NAME }}
+  DOCKER_URL: ${{ secrets.DOCKER_USERNAME }}/shopping-cart-api
   SSH_KEY: ${{ secrets.SSH }}
 
 jobs:
