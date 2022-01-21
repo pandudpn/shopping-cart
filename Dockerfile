@@ -4,12 +4,15 @@ RUN apk update && apk add git
 
 WORKDIR $GOPATH/src/shopping-cart
 
-COPY . .
-
 ENV GOSUMDB=off
+
 COPY go.mod .
+
 COPY go.sum .
+
 RUN go mod download
+
+COPY . .
 
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o /go/bin/shopping-cart cmd/main.go
 
