@@ -61,3 +61,9 @@ type CheckoutUseCaseInterface interface {
 	// CreateOrder adalah bisnis logic untuk membuat sebuah order dari keranjang belanja dengan data yg sesuai user input
 	CreateOrder(ctx context.Context, req *model.RequestCheckout) utils.ResponseInterface
 }
+
+// CallbackUseCaseInterface adalah usecase untuk metode pembayaran ataupun shipment dari 3rd party
+type CallbackUseCaseInterface interface {
+	// CallbackEWallet digunakan untuk memproses webhook dari Xendit EWallet
+	CallbackEWallet(ctx context.Context, req *model.EWalletPaymentNotification) utils.ResponseInterface
+}

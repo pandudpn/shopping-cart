@@ -13,9 +13,9 @@ const (
 		"created_at) " +
 		"values($1, $2, $3, $4, $5, $6, $7, $8, $9) returning id"
 	QUERY_UPDATE = "update public.order set status=$1, completed_at=$2, canceled_at=$3, updated_at=$4 where id=$5"
-	QUERY_SELECT = "select o.id, o.user_id, o.delivery_address_id, o.order_number, o.total_products_price " +
+	QUERY_SELECT = "select o.id, o.user_id, o.delivery_address_id, o.order_number, o.total_products_price, " +
 		"o.total_delivery_cost, o.total_payment, o.status, o.created_at " +
-		"from public.order "
+		"from public.order AS o "
 	QUERY_BY_ORDER_NUMBER = QUERY_SELECT + "where order_number=$1"
 )
 

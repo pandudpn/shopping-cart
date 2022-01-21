@@ -6,6 +6,7 @@ type StatusDelivery string
 
 const (
 	StatusDeliveryPending         StatusDelivery = "pending"
+	StatusDeliveryProcessing      StatusDelivery = "processing"
 	StatusDeliveryDelivered       StatusDelivery = "delivered"
 	StatusDeliveryPackageReceived StatusDelivery = "package_received"
 	StatusDeliveryCanceled        StatusDelivery = "canceled"
@@ -31,6 +32,7 @@ type OrderDelivery struct {
 	CreatedAt            time.Time
 	UpdatedAt            *time.Time
 	Rate                 *int
+	RefId                *string
 
 	// Relation table
 	Courier      *Courier
@@ -61,6 +63,10 @@ func (od *OrderDelivery) SetStatusToPackageReceived() {
 
 func (od *OrderDelivery) SetStatusToCanceled() {
 	od.Status = StatusDeliveryCanceled
+}
+
+func (od *OrderDelivery) SetStatusToProcessing() {
+	od.Status = StatusDeliveryProcessing
 }
 
 func (od *OrderDelivery) SetCourier(courier *Courier) {

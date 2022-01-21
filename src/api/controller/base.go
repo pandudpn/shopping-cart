@@ -32,3 +32,7 @@ type CheckoutControllerInterface interface {
 	UpdateHandler(e echo.Context) error
 	PostHandler(e echo.Context) error
 }
+
+type CallbackControllerInterface interface {
+	XenditEWalletHandler(e echo.Context) error
+}

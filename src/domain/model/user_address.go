@@ -67,3 +67,19 @@ func (ua *UserAddress) SetUser(user *User) {
 func (ua *UserAddress) GetUser() *User {
 	return ua.User
 }
+
+func (ua *UserAddress) GetLat() float64 {
+	if ua.Lat == nil {
+		return *ua.GetArea().Lat
+	}
+
+	return *ua.Lat
+}
+
+func (ua *UserAddress) GetLong() float64 {
+	if ua.Long == nil {
+		return *ua.GetArea().Long
+	}
+
+	return *ua.Long
+}

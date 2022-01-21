@@ -14,6 +14,8 @@ const (
 	StatusOrderPackageReceived  StatusOrder = "package_received"
 	StatusOrderCompleted        StatusOrder = "completed"
 	StatusOrderReturn           StatusOrder = "return"
+	StatusOrderFailed           StatusOrder = "failed"
+	StatusOrderExpired          StatusOrder = "expired"
 )
 
 type Order struct {
@@ -35,6 +37,7 @@ type Order struct {
 	Products []*OrderProduct
 	Payment  *OrderPayment
 	Delivery *OrderDelivery
+	User     *User
 }
 
 func NewOrder() *Order {
@@ -74,6 +77,14 @@ func (o *Order) SetStatusToReturn() {
 	o.Status = StatusOrderReturn
 }
 
+func (o *Order) SetStatusToFailed() {
+	o.Status = StatusOrderFailed
+}
+
+func (o *Order) SetStatusToExpired() {
+	o.Status = StatusOrderExpired
+}
+
 func (o *Order) AddProduct(product *OrderProduct) {
 	o.Products = append(o.Products, product)
 }
@@ -109,4 +120,12 @@ func (o *Order) SetDelivery(delivery *OrderDelivery) {
 
 func (o *Order) GetDelivery() *OrderDelivery {
 	return o.Delivery
+}
+
+func (o *Order) SetUser(user *User) {
+	o.User = user
+}
+
+func (o *Order) GetUser() *User {
+	return o.User
 }

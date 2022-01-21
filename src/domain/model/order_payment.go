@@ -10,6 +10,7 @@ const (
 	StatusPaymentExpired  StatusPayment = "expired"
 	StatusPaymentCanceled StatusPayment = "canceled"
 	StatusPaymentFailed   StatusPayment = "failed"
+	StatusPaymentRefunded StatusPayment = "refund"
 )
 
 type OrderPayment struct {
@@ -61,6 +62,10 @@ func (op *OrderPayment) SetStatusToExpired() {
 
 func (op *OrderPayment) SetStatusToCanceled() {
 	op.Status = StatusPaymentCanceled
+}
+
+func (op *OrderPayment) SetStatusToRefund() {
+	op.Status = StatusPaymentRefunded
 }
 
 func (op *OrderPayment) SetPaymentMethod(paymentMethod *PaymentMethod) {

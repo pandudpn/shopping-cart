@@ -163,6 +163,8 @@ type OrderPaymentRepositoryInterface interface {
 	// CreateOrderPayment akan membuat baris baru berdasarkan data-data yg di input
 	// dan akan mengembalikan order_payment.id yang baru
 	CreateOrderPayment(orderPayment *model.OrderPayment) error
+	// UpdateOrderPayment akan mengubah data existing dengan data baru berdasarkan id yg dipilih
+	UpdateOrderPayment(order *model.Order) error
 }
 
 // OrderDeliveryRepositoryInterface adalah kumpulan query-query pada table `order_delivery`
@@ -172,6 +174,8 @@ type OrderDeliveryRepositoryInterface interface {
 	// CreateOrderDelivery akan membuat baris baru berdasarkan data-data yg di input
 	// dan akan mengembalikan order_delivery.id
 	CreateOrderDelivery(orderDelivery *model.OrderDelivery) error
+	// UpdateOrderDelivery akan mengubah data existing berdasrakan order_delivery.id
+	UpdateOrderDelivery(order *model.Order) error
 }
 
 // OrderDeliveryStatusRepositoryInterface adalah kumpulan query-query pada table `order_delivery_status`

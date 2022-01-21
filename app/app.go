@@ -46,13 +46,19 @@ func App() {
 		panic(err)
 	}
 
+	callbackController, err := containerhelper.GetCallbackController(c)
+	if err != nil {
+		logger.Log.Error(err)
+		panic(err)
+	}
+
 	cachedMiddleware, err := containerhelper.GetCachedMiddleware(c)
 	if err != nil {
 		logger.Log.Error(err)
 		panic(err)
 	}
 
-	routes := routes.RouteHandler{User: userController, Cached: cachedMiddleware, Product: productController, Cart: cartController, Checkout: checkoutController}
+	routes := routes.RouteHandler{User: userController, Cached: cachedMiddleware, Product: productController, Cart: cartController, Checkout: checkoutController, Callback: callbackController}
 	router := routes.Route()
 
 	logger.Log.Fatal(router.Start(port))

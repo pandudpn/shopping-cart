@@ -16,6 +16,7 @@ var ucFbMap = map[string]useCaseFbInterface{
 	constant.PRODUCT:  &productUseCaseFactory{},
 	constant.CART:     &cartUseCaseFactory{},
 	constant.CHECKOUT: &checkoutUseCaseFactory{},
+	constant.CALLBACK: &callbackUseCaseFactory{},
 }
 
 type UseCaseFactoryInterface interface{}

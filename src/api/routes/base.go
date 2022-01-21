@@ -13,6 +13,7 @@ type RouteHandler struct {
 	Cart     controller.CartControllerInterface
 	Cached   middleware.CachedMiddlewareInterface
 	Checkout controller.CheckoutControllerInterface
+	Callback controller.CallbackControllerInterface
 }
 
 type RouteInterface interface {
@@ -43,6 +44,9 @@ func (rh *RouteHandler) Route() *echo.Echo {
 	checkout.GET("", rh.Checkout.GetCheckoutHandler)
 	checkout.PUT("", rh.Checkout.UpdateHandler)
 	checkout.POST("", rh.Checkout.PostHandler)
+
+	callback := e.Group("/callback")
+	callback.POST("/xendit/e-wallet", rh.Callback.XenditEWalletHandler)
 
 	return e
 }

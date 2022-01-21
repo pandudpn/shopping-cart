@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/pandudpn/shopping-cart/src/domain/model"
+	"github.com/pandudpn/shopping-cart/src/utils/logger"
 	"github.com/spf13/viper"
 )
 
@@ -44,6 +45,8 @@ func (cr *CourierRepository) GetCourierShipper(client *http.Client, cart *model.
 	if err != nil {
 		return nil, err
 	}
+
+	logger.Log.Debugf("req pricing %s", string(payload))
 
 	req, err := http.NewRequest(http.MethodPost, reqUrl, bytes.NewReader(payload))
 	if err != nil {

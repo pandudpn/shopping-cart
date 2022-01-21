@@ -27,6 +27,7 @@ const (
 
 	// Usecase
 	CHECKOUT = "checkout"
+	CALLBACK = "callback"
 
 	// Key Payment third party
 	XENDITEWALLET        = "xenditewallet"

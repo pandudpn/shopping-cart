@@ -10,6 +10,7 @@ var cFbMap = map[string]controllerFbInterface{
 	constant.PRODUCT:  &productControllerFactory{},
 	constant.CART:     &cartControllerFactory{},
 	constant.CHECKOUT: &checkoutControllerFactory{},
+	constant.CALLBACK: &callbackControllerFactory{},
 }
 
 type ControllerFactoryInterface interface{}
